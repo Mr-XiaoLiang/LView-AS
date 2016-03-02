@@ -52,6 +52,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter = new MainAdapter(names, this, this));
+        dialogUtil = new DialogUtil();
+        calendar = Calendar.getInstance();
     }
 
 

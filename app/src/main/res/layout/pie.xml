@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:orientation="vertical">
+	<View 
+	    android:layout_width="fill_parent"
+	    android:layout_height="0px"
+	    android:layout_weight="1"/>
+	<mr_xiaoliang.com.github.lview_as.view.LPieView
+	    android:layout_width="fill_parent"
+	    android:layout_height="0px"
+	    android:id="@+id/pie"
+	    android:layout_weight="2"/>
+	<View 
+	    android:layout_width="fill_parent"
+	    android:layout_height="0px"
+	    android:layout_weight="1"/>
+	
+</LinearLayout>

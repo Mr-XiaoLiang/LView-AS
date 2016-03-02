@@ -1,0 +1,93 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <mr_xiaoliang.com.github.lview_as.view.RevealLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:text="LinearLayout" 
+                android:background="#eee"/>
+        </mr_xiaoliang.com.github.lview_as.view.RevealLayout>
+
+        <mr_xiaoliang.com.github.lview_as.view.RevealLayout
+            android:id="@+id/layout111"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/button221"
+                android:layout_width="200dp"
+                android:layout_height="70dp"
+                android:enabled="true"
+                android:background="#eee"
+                android:text="Button" />
+        </mr_xiaoliang.com.github.lview_as.view.RevealLayout>
+
+        <mr_xiaoliang.com.github.lview_as.view.RevealLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical" >
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                android:enabled="true"
+                android:background="#eee"
+                android:text="Button" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hello_world" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="#eee"
+                android:layout_margin="10dp"
+                android:enabled="true"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:enabled="true"
+                android:background="#eee"
+                android:text="Button" />
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_margin="10dp"
+                android:enabled="true"
+                android:background="#eee"
+                android:text="Button" />
+        </mr_xiaoliang.com.github.lview_as.view.RevealLayout>
+        <TextView 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/ripple_explain"/>
+    </LinearLayout>
+
+</ScrollView>

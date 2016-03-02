@@ -1,0 +1,94 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <mr_xiaoliang.com.github.lview_as.view.NoScrollViewPager
+        android:id="@+id/viewpage"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/gary" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="top"
+        android:orientation="vertical" >
+		<LinearLayout 
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="horizontal"
+		    android:weightSum="7">
+		    <TextView 
+		        android:id="@+id/tab0"
+		        android:layout_width="0px"
+		        android:layout_weight="1"
+		        android:layout_height="fill_parent"
+		        android:padding="5sp"
+		        android:gravity="center"
+		        android:textColor="@color/white"
+		        android:text="标题"/>
+		    <TextView 
+		        android:id="@+id/tab1"
+		        android:layout_width="0px"
+		        android:layout_weight="2"
+		        android:layout_height="fill_parent"
+		        android:padding="5sp"
+		        android:gravity="center"
+		        android:textColor="@color/white"
+		        android:text="这是标题"/>
+		    <TextView 
+		        android:id="@+id/tab2"
+		        android:layout_width="0px"
+		        android:layout_weight="1"
+		        android:layout_height="fill_parent"
+		        android:padding="5sp"
+		        android:gravity="center"
+		        android:textColor="@color/white"
+		        android:text="标题"/>
+		    <TextView 
+		        android:id="@+id/tab3"
+		        android:layout_width="0px"
+		        android:layout_weight="2"
+		        android:layout_height="fill_parent"
+		        android:padding="5sp"
+		        android:gravity="center"
+		        android:textColor="@color/white"
+		        android:text="这是标题"/>
+		    <TextView 
+		        android:id="@+id/tab4"
+		        android:layout_width="0px"
+		        android:layout_weight="1"
+		        android:layout_height="fill_parent"
+		        android:padding="5sp"
+		        android:gravity="center"
+		        android:textColor="@color/white"
+		        android:text="标题"/>
+		</LinearLayout>
+		
+        <mr_xiaoliang.com.github.lview_as.view.LTabPointView
+            android:id="@+id/tabview"
+            android:layout_width="fill_parent"
+            android:layout_height="10sp"
+            android:layout_marginBottom="20sp"/>
+        <mr_xiaoliang.com.github.lview_as.view.LTabLineView
+            android:id="@+id/tabview2"
+            android:layout_width="fill_parent"
+            android:layout_height="5sp"
+            android:layout_marginBottom="20sp"/>
+    </LinearLayout>
+    
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="bottom"
+        android:orientation="vertical" >
+
+        <mr_xiaoliang.com.github.lview_as.view.LPagePointView
+            android:id="@+id/pointview"
+            android:layout_width="fill_parent"
+            android:layout_height="10sp"
+            android:layout_marginBottom="20sp"/>
+    </LinearLayout>
+
+</FrameLayout>

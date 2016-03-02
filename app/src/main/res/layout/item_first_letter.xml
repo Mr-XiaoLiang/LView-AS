@@ -1,0 +1,11 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+	<TextView 
+	    android:id="@+id/item_first_letter_text"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="5dp"
+	    android:textColor="@android:color/darker_gray"
+	    android:text="A"/>
+</LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+<!-- 当被点击时的主页样式文件 -->
+    <item>
+        <shape>
+            <solid android:color="@color/translucence" />
+            <corners
+                android:radius="10sp" />
+        </shape>
+    </item>
+</layer-list>

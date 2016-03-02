@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="text_color" format="color" />
+    <attr name="background_color" format="color" />
+
+    <declare-styleable name="clockview">
+        <attr name="type">
+            <enum name="hours" value="0" />
+            <enum name="minutes" value="1" />
+        </attr>
+        <attr name="border_color" format="color" />
+        <attr name="text_color" />
+        <attr name="border_width" format="dimension" />
+        <attr name="dial_color" format="color" />
+        <attr name="background_color" />
+        <attr name="text_size" format="dimension" />
+        <attr name="pointer_color" format="color" />
+        <attr name="background_image" format="reference" />
+        <attr name="text_color_un" format="color" />
+        <attr name="scale_color" format="color" />
+    </declare-styleable>
+    <declare-styleable name="calendarview">
+        <attr name="background_color" />
+        <attr name="text_color" />
+        <attr name="weeks_color" format="color" />
+        <attr name="selected_color" format="color" />
+        <attr name="today_color" format="color" />
+        <attr name="year" format="integer" />
+        <attr name="month" format="integer" />
+        <attr name="today" format="integer" />
+        <attr name="selected" format="integer" />
+    </declare-styleable>
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color" />
+    </declare-styleable>
+
+</resources>

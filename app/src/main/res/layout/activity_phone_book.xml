@@ -1,0 +1,141 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:fitsSystemWindows="true"
+    android:clipToPadding="true">
+
+    <LinearLayout
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="5dp"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:id="@+id/activity_phone_book_back"
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center|left" 
+            android:paddingLeft="15dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/ic_gray_left" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="6"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="选择联系人" />
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="match_parent"
+            android:layout_weight="2" >
+        </LinearLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        android:background="@color/gary_bg" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" 
+            android:orientation="horizontal">
+            <android.support.v7.widget.RecyclerView
+	            android:id="@+id/activity_phone_book_recyclerview"
+	            android:layout_width="0px"
+	            android:layout_weight="1"
+	            android:layout_height="match_parent"/>
+            <mr_xiaoliang.com.github.lview_as.view.phoneBookSuite.LInitialsIndexView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="invisible"/>
+        </LinearLayout>
+		<LinearLayout 
+		    android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="right">
+	        <TextView
+	            android:id="@+id/activity_phone_book_first_letter_text"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:background="@color/white"
+	            android:elevation="3dp"
+	            android:padding="5dp"
+	            android:textColor="@android:color/darker_gray" />
+	        <mr_xiaoliang.com.github.lview_as.view.phoneBookSuite.LInitialsIndexView
+	            android:layout_margin="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/activity_phone_book_bar"/>
+		</LinearLayout>
+		<LinearLayout 
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:gravity="center">
+		    <include 
+		        layout="@layout/dialog_show_letter"/>
+		</LinearLayout>
+    </FrameLayout>
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:gravity="center_horizontal"
+	    android:elevation="3dp"
+	    android:background="@color/white">
+        <LinearLayout 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginRight="5dp">
+		    <CheckBox 
+		        android:id="@+id/activity_phone_book_check_all"
+		        android:layout_width="20dp"
+		        android:layout_height="20dp"
+		        android:background="@drawable/check_box_bg"
+		        android:button="@null"/>
+        </LinearLayout>
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#F63375"
+            android:text="全选"/>
+        <View 
+            android:layout_width="0px"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:id="@+id/activity_phone_book_enter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btn_bg_red"
+            android:elevation="3dp"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="10dp"
+            android:text="@string/phone_book_enter"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+	</LinearLayout>
+</LinearLayout>

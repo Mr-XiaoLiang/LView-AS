@@ -1,0 +1,13 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:orientation="horizontal"
+    android:background="@color/white"
+    android:padding="10dp"
+    android:id="@+id/item_home_small_banner_105_root">
+	<ImageView 
+	    android:id="@+id/item_home_small_banner_105_img"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:scaleType="centerCrop"/>
+</LinearLayout>

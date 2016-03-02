@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="5dp" 
+    android:id="@+id/item_home_trait_statement_106_root"
+    android:background="@color/white">
+
+    <ImageView
+        android:layout_margin="5dp"
+        android:id="@+id/item_home_trait_statement_106_img1"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:layout_margin="5dp"
+        android:id="@+id/item_home_trait_statement_106_img2"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:layout_margin="5dp"
+        android:id="@+id/item_home_trait_statement_106_img3"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_launcher" />
+
+    <ImageView
+        android:layout_margin="5dp"
+        android:id="@+id/item_home_trait_statement_106_img4"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:scaleType="centerInside"
+        android:src="@mipmap/ic_launcher" />
+	
+</LinearLayout>

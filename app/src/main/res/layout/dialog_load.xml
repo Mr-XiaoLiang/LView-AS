@@ -1,0 +1,7 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+	<mr_xiaoliang.com.github.lview_as.view.LLoadView
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"/>
+</LinearLayout>

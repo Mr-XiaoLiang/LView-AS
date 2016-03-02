@@ -2,112 +2,169 @@ package mr_xiaoliang.com.github.lview_as;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
-    private Snackbar snackbar;
+import java.util.Calendar;
+
+import mr_xiaoliang.com.github.lview_as.dialog.CalendarDialog;
+import mr_xiaoliang.com.github.lview_as.dialog.LWheelDialog;
+import mr_xiaoliang.com.github.lview_as.view.LCalendarView;
+import mr_xiaoliang.com.github.lview_as.view.LClockView;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,MainAdapter.OnItemClickListener{
+
+    private ClipData myClip;
+    private ClipboardManager myClipboard;
+    private static final String GitPath = "https://github.com/Mr-XiaoLiang";
+    private FloatingActionButton fab;
+    private String[] names = {
+            "日历选择-日期没有限制&全向拖动", "日历选择-日期有限制&单向", "选项卡切换-三角形", "选项卡切换-线形", "时间选择-小时",
+            "时间选择-分钟","加载等待动画", "饼图", "进度图", "雷达图",
+            "圆形图片", "滑动按钮", "温度计", "进度条按钮", "页面下方小点",
+            "tab小点", "日期滚轮", "时间滚轮", "全套滚轮","tab条形",
+            "倒计时View","商品列表","支付宝咻一咻","系统自带的抽屉用法演示","现在较流行的抽屉样式",
+            "带涟漪的Layout","渐变的View","通讯录" };
+    private RecyclerView recyclerView;
+    private MainAdapter adapter;
+    private DialogUtil dialogUtil;
+    private Calendar calendar;
+    private Intent intent;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                snackbar = Snackbar.make(view, "GitHub：https://github.com/Mr-XiaoLiang/LView-AS", Snackbar.LENGTH_SHORT);
-                snackbar.setAction("复制", new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view) {
-                        ClipboardManager myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-                        String text = "https://github.com/Mr-XiaoLiang/LView-AS";
-                        ClipData myClip = ClipData.newPlainText("git",text);
-                        myClipboard.setPrimaryClip(myClip);
-                    }
-                });
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        recyclerView = (RecyclerView) findViewById(R.id.main_recyclerview);
+        fab.setOnClickListener(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(adapter = new MainAdapter(names, this, this));
     }
 
 
 
     @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                Snackbar.make(v, GitPath, Snackbar.LENGTH_LONG)
+                        .setAction("复制", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                myClip = ClipData.newPlainText("text", GitPath);
+                                myClipboard.setPrimaryClip(myClip);
+                            }
+                        }).show();
+                break;
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+    public void onItemClick(String data, int position) {
+        switch (position) {
+            case 0:
+                dialogUtil.getCalendarDialog(this, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.DAY_OF_MONTH), LCalendarView.SlideType.Both, new CalendarDialog.CalendarDialogListener() {
+                            @Override
+                            public void calendarDialogListener(int year, int month, int day) {
+                                t(year + "-" + month + "-" + day);
+                            }
+                        });
+                break;
+            case 1:
+                dialogUtil.getCalendarDialog(this, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR),
+                        calendar.get(Calendar.DAY_OF_MONTH), LCalendarView.SlideType.Horizontal,
+                        new CalendarDialog.CalendarDialogListener() {
+                            @Override
+                            public void calendarDialogListener(int year, int month, int day) {
+                                t(year + "-" + month + "-" + day);
+                            }
+                        });
+                break;
+            case 2:
+                intent = new Intent(this, ChooseBgTest.class);
+                intent.putExtra("type", true);
+                startActivity(intent);
+                break;
+            case 3:
+                intent = new Intent(this, ChooseBgTest.class);
+                intent.putExtra("type", false);
+                startActivity(intent);
+                break;
+            case 4:
+                intent = new Intent(this, ClockTest.class);
+                intent.putExtra("type", LClockView.TYPE_HOURS);
+                startActivity(intent);
+                break;
+            case 5:
+                intent = new Intent(this, ClockTest.class);
+                intent.putExtra("type", LClockView.TYPE_MINUTES);
+                startActivity(intent);
+                break;
+            case 6:
+                dialogUtil.getLoadDialog(this);
+                break;
+            case 8:
+                dialogUtil.getProgressDialog(this, 100, 100);
+                break;
+            case 14:
+                intent = new Intent(this, PageTest.class);
+                intent.putExtra("type", PageTest.thisType_bottom);
+                startActivity(intent);
+                break;
+            case 15:
+                intent = new Intent(this, PageTest.class);
+                intent.putExtra("type", PageTest.thisType_top);
+                startActivity(intent);
+                break;
+            case 16:
+                dialogUtil.getWheelDialog(this, LWheelDialog.LWheelDialogType.DATE, null);
+                break;
+            case 17:
+                dialogUtil.getWheelDialog(this, LWheelDialog.LWheelDialogType.TIME, null);
+                break;
+            case 18:
+                dialogUtil.getWheelDialog(this, LWheelDialog.LWheelDialogType.ALL, null);
+                break;
+            case 19:
+                intent = new Intent(this, PageTest.class);
+                intent.putExtra("type", PageTest.thisType_top_line);
+                startActivity(intent);
+                break;
+            case 20:
+                intent = new Intent(this, CountDownListActivity.class);
+                startActivity(intent);
+                break;
+            case 21:
+                intent = new Intent(this, ShopListTest.class);
+                startActivity(intent);
+                break;
+            case 27:
+                intent = new Intent(this, PhoneBook.class);
+                startActivity(intent);
+                break;
+            default:
+                intent = new Intent(this, ViewTest.class);
+                intent.putExtra("type", position - 7);
+                startActivity(intent);
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
     }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    private void t(String s){
+        Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 }

@@ -1,0 +1,201 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="5dp" 
+    android:background="@color/white"
+    android:id="@+id/item_home_big_three_102_root">
+
+    <FrameLayout
+        android:id="@+id/item_home_big_three_102_root1"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/item_home_big_three_102_bg1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:weightSum="2" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:background="#80000000"
+                android:orientation="vertical"
+                android:padding="5dp" >
+
+                <TextView
+                    android:id="@+id/item_home_big_three_102_title1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/item_home_big_three_102_msg1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:background="#f00"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#fff" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:id="@+id/item_home_big_three_102_icon1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/item_home_big_three_102_root2"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/item_home_big_three_102_bg2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:weightSum="2" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:background="#80000000"
+                android:orientation="vertical"
+                android:padding="5dp" >
+
+                <TextView
+                    android:id="@+id/item_home_big_three_102_title2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/item_home_big_three_102_msg2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:background="#f00"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#fff" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:id="@+id/item_home_big_three_102_icon2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/item_home_big_three_102_root3"
+        android:layout_width="0px"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:layout_weight="1" >
+
+        <ImageView
+            android:id="@+id/item_home_big_three_102_bg3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            android:weightSum="2" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0px"
+                android:layout_weight="1"
+                android:background="#80000000"
+                android:orientation="vertical"
+                android:padding="5dp" >
+
+                <TextView
+                    android:id="@+id/item_home_big_three_102_title3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#fff"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/item_home_big_three_102_msg3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:background="#f00"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="#fff" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1"
+                    android:gravity="center" >
+
+                    <ImageView
+                        android:id="@+id/item_home_big_three_102_icon3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerInside" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v4.widget.DrawerLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/built_in_center"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <mr_xiaoliang.com.github.lview_as.view.LXiuXiu
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/phone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/built_in_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="#80a45875" >
+
+            <mr_xiaoliang.com.github.lview_as.view.LXiuXiu
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/phone" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/built_in_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="#80a45875" >
+
+            <mr_xiaoliang.com.github.lview_as.view.LXiuXiu
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@mipmap/phone" />
+        </LinearLayout>
+    </android.support.v4.widget.DrawerLayout>
+
+</RelativeLayout>

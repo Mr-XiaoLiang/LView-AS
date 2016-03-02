@@ -1,0 +1,25 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:weightSum="3" >
+
+    <mr_xiaoliang.com.github.lview_as.view.LSlideButtonView
+        android:id="@+id/b"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1" />
+
+    <mr_xiaoliang.com.github.lview_as.view.LSlideButtonView
+        android:id="@+id/btn"
+        android:layout_width="30dp"
+        android:layout_height="30dp" />
+
+    <mr_xiaoliang.com.github.lview_as.view.LSlideButtonView
+        android:id="@+id/btn2"
+        android:layout_width="fill_parent"
+        android:layout_height="0px"
+        android:layout_weight="1" />
+
+</LinearLayout>

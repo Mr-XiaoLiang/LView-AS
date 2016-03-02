@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:fitsSystemWindows="true"
+    android:clipChildren="true"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <TextView 
+        android:id="@+id/shop_list_hint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"/>
+    <ListView
+            android:id="@+id/shop_list_listview"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:dividerHeight="0px"
+            android:divider="#00000000"
+            android:background="@color/gary2" />
+    
+</LinearLayout>

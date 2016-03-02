@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">LView-AS</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
+    <string name="phone_book_enter">确定(%1$s)</string>
+    <string name="ripple_explain">小良注：\n 本View不是我写的，是从网上找来的，写的很好 \n 但是有些缺陷，比如连续点击同一个位置，显示的效果不是很好。 \n 一次只有一个View能有动画效果 \n 但是因为我本身能力问题，暂时没有办法完善上述功能，所以直接把大神的Layout拿上来了 \n 所以这里明确注释下，同时，项目里面没有以L开头的View也不是本人所做，以示区分。\n Layout的代码没有丝毫的改动，原贴地址：http://blog.csdn.net/singwhatiwanna/article/details/42614953</string>
 </resources>

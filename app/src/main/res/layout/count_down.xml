@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:fitsSystemWindows="true"
+    android:clipChildren="true"
+    android:background="@color/white"
+    android:orientation="vertical">
+    <TextView 
+        android:id="@+id/count_down_hint"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"/>
+	<ListView 
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:id="@+id/count_down_list"
+	    android:background="@color/gary2"/>
+</LinearLayout>

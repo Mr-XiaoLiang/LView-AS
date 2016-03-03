@@ -69,12 +69,12 @@ public class ShopListTest extends Activity {
 		public View getView(int position, View convertView, ViewGroup parent) {
 			switch (bean.getTypes(position)) {
 			case ShopListBean.HomePagersItem_101:
-				if (convertView instanceof HomePagersItem_101) {
-					((HomePagersItem_101) convertView).setBean((HomePagersItem_101Bean) bean.getBeans(position));
-				} else {
-					convertView = new HomePagersItem_101(ShopListTest.this,
-							(HomePagersItem_101Bean) bean.getBeans(position), null);
-				}
+//				if (convertView instanceof HomePagersItem_101) {
+//					((HomePagersItem_101) convertView).setBean((HomePagersItem_101Bean) bean.getBeans(position));
+//				} else {
+//				}
+				convertView = new HomePagersItem_101(ShopListTest.this,
+						(HomePagersItem_101Bean) bean.getBeans(position), null);
 				break;
 			case ShopListBean.HomeBigThreeItem_102:
 				convertView = new HomeBigThreeItem_102(ShopListTest.this,

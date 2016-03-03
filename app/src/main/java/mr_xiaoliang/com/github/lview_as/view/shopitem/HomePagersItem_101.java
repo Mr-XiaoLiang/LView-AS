@@ -63,7 +63,7 @@ public class HomePagersItem_101 extends FrameLayout implements OnPageChangeListe
 	private FrameLayout root;
 	private int windowHeight = 0;
 	
-	private void init(){
+	private void initView(){
 		LayoutInflater.from(context).inflate(R.layout.item_home_pagers_101,
 				this, true);
 		pagerView = (ViewPager) findViewById(R.id.item_home_pagers_101_pager);
@@ -79,19 +79,22 @@ public class HomePagersItem_101 extends FrameLayout implements OnPageChangeListe
 		root.setLayoutParams(p);
 		
 		imageLoader = ImageLoader.getInstance();
-		if(bean==null||bean.getImgUrlSize()==0){
-			return;
-		}
 		DataSet();
+
 	}
 	
 	private void DataSet(){
+		if(bean==null||bean.getImgUrlSize()==0){
+			return;
+		}
+		if(pointView==null||pagerView==null)
+			return;
 		pointView.setPointSize(bean.getImgUrlSize());
 		LinearLayout.LayoutParams imgParams;
 		viewList = new ImageView[bean.getImgUrlSize()];
+		imgParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 		for(int i  = 0;i<viewList.length;i++){
 			ImageView image = new ImageView(context);
-			imgParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			image.setLayoutParams(imgParams);
 			image.setScaleType(ScaleType.CENTER_CROP);
 			image.setOnClickListener(new OnImageClickListener(i));
@@ -193,24 +196,24 @@ public class HomePagersItem_101 extends FrameLayout implements OnPageChangeListe
 	public HomePagersItem_101(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		this.context = context;
-		init();
+		initView();
 	}
 	public HomePagersItem_101(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		this.context = context;
-		init();
+		initView();
 	}
 	public HomePagersItem_101(Context context) {
 		super(context);
 		this.context = context;
-		init();
+		initView();
 	}
 	public HomePagersItem_101(Context context,HomePagersItem_101Bean bean,OnPageClickListener listener) {
 		super(context);
 		this.bean = bean;
 		this.clickListener = listener;
 		this.context = context;
-		init();
+		initView();
 	}
 	
 	public HomePagersItem_101(Context context, HomePagersItem_101Bean bean, OnPageClickListener clickListener,
@@ -220,7 +223,7 @@ public class HomePagersItem_101 extends FrameLayout implements OnPageChangeListe
 		this.clickListener = clickListener;
 		this.windowHeight = windowHeight;
 		this.context = context;
-		init();
+		initView();
 	}
 
 	public HomePagersItem_101(Context context, HomePagersItem_101Bean bean, int windowHeight) {
@@ -228,7 +231,7 @@ public class HomePagersItem_101 extends FrameLayout implements OnPageChangeListe
 		this.bean = bean;
 		this.windowHeight = windowHeight;
 		this.context = context;
-		init();
+		initView();
 	}
 
 	public HomePagersItem_101Bean getBean() {

@@ -15,7 +15,7 @@
         android:orientation="vertical" 
         android:gravity="bottom">
 
-        <com.l.j.view.LPagePointView
+        <mr_xiaoliang.com.github.lview_as.view.LPagePointView
             android:id="@+id/item_home_pagers_101_point"
             android:layout_width="fill_parent"
             android:layout_height="10dp"

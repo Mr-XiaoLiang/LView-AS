@@ -18,6 +18,7 @@ import java.util.Calendar;
 
 import mr_xiaoliang.com.github.lview_as.dialog.CalendarDialog;
 import mr_xiaoliang.com.github.lview_as.dialog.LWheelDialog;
+import mr_xiaoliang.com.github.lview_as.util.ShortcutUtil;
 import mr_xiaoliang.com.github.lview_as.view.LCalendarView;
 import mr_xiaoliang.com.github.lview_as.view.LClockView;
 
@@ -33,13 +34,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "圆形图片", "滑动按钮", "温度计", "进度条按钮", "页面下方小点",
             "tab小点", "日期滚轮", "时间滚轮", "全套滚轮","tab条形",
             "倒计时View","商品列表","支付宝咻一咻","系统自带的抽屉用法演示","现在较流行的抽屉样式",
-            "带涟漪的Layout","渐变的View","通讯录" };
+            "带涟漪的Layout","渐变的View","通讯录","添加快捷方式" };
     private RecyclerView recyclerView;
     private MainAdapter adapter;
     private DialogUtil dialogUtil;
     private Calendar calendar;
     private Intent intent;
-
+    private ShortcutUtil shortcutUtil = null;
+    private int size = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView.setAdapter(adapter = new MainAdapter(names, this, this));
         dialogUtil = new DialogUtil();
         calendar = Calendar.getInstance();
+        shortcutUtil = new ShortcutUtil(this);
     }
 
 
@@ -158,6 +161,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case 27:
                 intent = new Intent(this, PhoneBook.class);
                 startActivity(intent);
+                break;
+            case 28:
+                shortcutUtil.addShortcut(getString(R.string.app_name), size, R.mipmap.ic_launcher,MainActivity.class);
+                t("添加成功");
+                size++;
                 break;
             default:
                 intent = new Intent(this, ViewTest.class);

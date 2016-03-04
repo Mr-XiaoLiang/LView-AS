@@ -291,14 +291,8 @@ public class LXiuXiu extends ImageView {
 		// 将bmp作为着色器，就是在指定区域内绘制bmp
 		Shader mBitmapShader = new BitmapShader(bmp, TileMode.CLAMP, TileMode.CLAMP);
 		float scale = 1.0f;
-		// if (type == TYPE_CIRCLE){
-		// // 拿到bitmap宽或高的小值
-		// int bSize = Math.min(bmp.getWidth(), bmp.getHeight());
-		// scale = mWidth * 1.0f / bSize;
-		// } else if (type == TYPE_ROUND){
 		// 如果图片的宽或者高与view的宽高不匹配，计算出需要缩放的比例；缩放后的图片的宽高，一定要大于我们view的宽高；所以我们这里取大值；
 		scale = Math.max(radius * 2.0f / bmp.getWidth(), radius * 2.0f / bmp.getHeight());
-		// }
 		if(matrix==null){
 			matrix = new Matrix();
 		}

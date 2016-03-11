@@ -271,6 +271,7 @@ public class LClockView extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
 		height = getHeight();
 		width = getWidth();
 		if (width > height) {
@@ -394,7 +395,6 @@ public class LClockView extends View {
 		// scale = getPointerLocation();
 		// canvas.drawLine(width / 2, height / 2, scale[0], scale[1],
 		// pointerPaint);
-		super.onDraw(canvas);
 	}
 
 	/*-------------------------参数设置方法开始-------------------------------*/

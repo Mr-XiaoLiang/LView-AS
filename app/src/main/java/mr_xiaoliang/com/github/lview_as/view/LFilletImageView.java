@@ -19,6 +19,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+/**
+ * 一个图片背景的圆角按钮
+ */
 public class LFilletImageView extends ImageView {
 	/**
 	 * 图片笔

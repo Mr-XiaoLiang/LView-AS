@@ -2,11 +2,16 @@ package mr_xiaoliang.com.github.lview_as.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Shader;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
@@ -82,18 +87,44 @@ public class LLoadView2 extends View {
      * 是否是波峰
      */
     private boolean crest = true;
+    /**
+     * 波浪直径的浮点数
+     */
+    private float waveRF = 0.5F;
+    /**
+     * 拉伸矩阵
+     */
+    private Matrix matrix;
+    /**
+     * 临时画布载体
+     */
+    private Bitmap bitmap;
+    /**
+     * 临时画布
+     */
+    private Canvas c;
+    /**
+     * 图片绘制画笔
+     */
+    private Paint bmpPaint;
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if(bitmap==null){
+            bitmap = Bitmap.createBitmap(canvas.getWidth(), canvas.getHeight(), Bitmap.Config.ARGB_8888);
+            c = new Canvas(bitmap);
+        }else{
+            c.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        }
         //画水面
-        drawWave(canvas);
+        drawWave(c);
         //画水滴
-//        drawDrop(canvas);
-        //画包边
-//        drawBorder(canvas);
+        drawDrop(c);
         //剪切图型
-//        drawXfermode(canvas);
+        drawXfermode(canvas);
+        //画包边
+        drawBorder(canvas);
         //动起来
         run();
     }
@@ -102,7 +133,7 @@ public class LLoadView2 extends View {
         Iterator<MyPoint> ip = wavePoint.iterator();
         while(ip.hasNext()){
             MyPoint p = ip.next();
-            if(p.X<-width*0.5){
+            if(p.X<-width*(waveRF+0.1)){
                 ip.remove();
             }
         }
@@ -110,13 +141,11 @@ public class LLoadView2 extends View {
             if(p.Y>getHeight()-waveHeight+p.R){
                 getDrop(1,p);
             }else{
-                p.setY(dropStep+p.Y);
-//                int s = random.nextInt()%dropStep+p.X;
-//                if(s<XOS)
-//                    s = XOS;
-//                if(s>getWidth()-XOS)
-//                    s = getWidth()-XOS;
-//                p.setX(s);
+                if(p.Y>0){
+                    p.setY((int) (dropStep+p.Y*1.03));
+                }else{
+                    p.setY(dropStep+p.Y);
+                }
             }
         }
         if(waveHeight<waveMaxHeight){
@@ -141,16 +170,21 @@ public class LLoadView2 extends View {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void drawXfermode(Canvas canvas){
-        waterPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+//        waterPaint.setXfermode(null);
+//        waterPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+
+//        canvas.drawBitmap(bitmap,0,0,null);
+
+        Shader mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        bmpPaint.setShader(mBitmapShader);
+        int b = (int) (Math.min(width,height)*option.getBorderWidth());
         if(option.isFitXY()){
-            canvas.drawOval(0,0,width,height,waterPaint);
+            canvas.drawOval(b, b, width - b, height - b, bmpPaint);
         }else{
-            canvas.drawCircle(width/2,height/2,width/2,waterPaint);
+            canvas.drawCircle(width / 2, height / 2, width / 2 - b, bmpPaint);
         }
-        waterPaint.reset();
-        waterPaint.setStyle(Paint.Style.FILL);
-        waterPaint.setAntiAlias(true);
-        waterPaint.setColor(option.getWaterColor());
+//        waterPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+//        waterPaint.setXfermode(null);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -174,9 +208,22 @@ public class LLoadView2 extends View {
     private void drawWave(Canvas canvas){
         if(wavePoint!=null&&wavePoint.size()>0){
             Path path = new Path();
-            path.moveTo(wavePoint.get(0).X, getHeight() - wavePoint.get(0).Y - wavePoint.get(0).W);
-            for(MyPoint p : wavePoint){
-                path.quadTo(p.X,getHeight()-p.Y-YOS,p.Xz,getHeight()-p.Yz);
+            int x,y,x1,y1,x2,y2;
+            for(int i = 0;i<wavePoint.size();i++){
+                MyPoint p = wavePoint.get(i);
+                MyPoint p2;
+                x = p.X;
+                y = getHeight()-p.Y-YOS-p.W;
+                if(i>0){
+                    p2 = wavePoint.get(i-1);
+                    x2 = x1 = (p.X+p2.X)/2;
+                    y1 = getHeight()-p2.Y-YOS-p2.W;
+                    y2 = y;
+                    path.cubicTo(x1, y1, x2, y2, x, y);
+                }else{
+                    path.moveTo(x,y);
+
+                }
 //                path.quadTo(p.Xz,getHeight()-p.Yz,p.X,getHeight()-p.Y-YOS);
             }
             path.lineTo(getWidth(),getHeight());
@@ -189,7 +236,7 @@ public class LLoadView2 extends View {
     private void getDrop(int i){
         int r,x,y;
         r = Math.abs(random.nextInt())%maxDrop;
-        x = Math.abs(random.nextInt())%width+XOS;
+        x = Math.abs(random.nextInt())%width/3+width/3+XOS;
         y = -r-(height-waveHeight)/option.getDropNum()*i+YOS;
         dropPoint.add(new MyPoint(x, y, r));
     }
@@ -197,7 +244,7 @@ public class LLoadView2 extends View {
     private void getDrop(int i,MyPoint p){
         int r,x,y;
         r = Math.abs(random.nextInt())%maxDrop;
-        x = Math.abs(random.nextInt())%width+XOS;
+        x = Math.abs(random.nextInt())%width/3+width/3+XOS;
         y = -r-(height-waveHeight)/option.getDropNum()*i+YOS;
         p.setX(x);
         p.setY(y);
@@ -207,10 +254,10 @@ public class LLoadView2 extends View {
     private void getWave(){
         int x,y,xz,yz,w;
         if(wavePoint.size()>0){
-            x = (int) (wavePoint.get(wavePoint.size()-1).X+width*0.4);
+            x = (int) (wavePoint.get(wavePoint.size()-1).X+width*waveRF);
             y = waveHeight;
-//            w = random.nextInt()%maxWave+YOS;
-            w = maxWave;
+            w = random.nextInt()%maxWave+YOS;
+//            w = maxWave;
             if(crest){
                 w = Math.abs(w);
                 crest = false;
@@ -250,8 +297,11 @@ public class LLoadView2 extends View {
     private void init(){
         waterPaint = new Paint();
         borderPaint = new Paint();
+        bmpPaint = new Paint();
         waterPaint.setStyle(Paint.Style.FILL);
         waterPaint.setAntiAlias(true);
+        bmpPaint.setStyle(Paint.Style.FILL);
+        bmpPaint.setAntiAlias(true);
         borderPaint.setAntiAlias(true);
         borderPaint.setStyle(Paint.Style.STROKE);
         wavePoint = new ArrayList<>();
@@ -274,7 +324,6 @@ public class LLoadView2 extends View {
                 maxWave = (int) (height*option.getWaveRange());
                 maxDrop = (int) (width*option.getMaxDropSize());
                 waveMaxHeight = (int) (height*option.getProgress());
-                waveHeight = waveMaxHeight;
                 borderPaint.setStrokeWidth(Math.min(width,height)*option.getBorderWidth());
                 dropPoint.clear();
                 for(int i = 0;i<option.getDropNum();i++){

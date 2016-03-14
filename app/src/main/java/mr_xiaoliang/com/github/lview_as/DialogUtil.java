@@ -118,8 +118,8 @@ public class DialogUtil {
 		WindowManager m = context.getWindowManager();
 		Display d = m.getDefaultDisplay(); // 获取屏幕宽、高用
 		WindowManager.LayoutParams p = window.getAttributes(); // 获取对话框当前的参数值
-		p.height = (int) (d.getHeight() * 0.4);
-		p.width = (int) (d.getWidth() * 0.4);
+		p.height = (int) (d.getHeight() * 0.25);
+		p.width = (int) (d.getWidth() * 0.25);
 		p.height = p.width = Math.min(p.height , p.width);
 		dialog.onWindowAttributesChanged(p);
 //		p.dimAmount = 0f;// 设置背景不变暗

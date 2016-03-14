@@ -34,7 +34,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "圆形图片", "滑动按钮", "温度计", "进度条按钮", "页面下方小点",
             "tab小点", "日期滚轮", "时间滚轮", "全套滚轮","tab条形",
             "倒计时View","商品列表","支付宝咻一咻","系统自带的抽屉用法演示","现在较流行的抽屉样式",
-            "带涟漪的Layout","渐变的View","通讯录","添加快捷方式" };
+            "带涟漪的Layout","渐变的View","通讯录","添加快捷方式","删除快捷方式",
+            "水滴加载动画"};
     private RecyclerView recyclerView;
     private MainAdapter adapter;
     private DialogUtil dialogUtil;
@@ -165,6 +166,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case 28:
                 shortcutUtil.addShortcut(getString(R.string.app_name), size, R.mipmap.ic_launcher,MainActivity.class);
                 t("添加成功");
+                size++;
+                break;
+            case 29:
+                shortcutUtil.deleteShortcut(getString(R.string.app_name), MainActivity.class);
+                t("删除成功");
+                break;
+            case 30:
+                dialogUtil.getLoadDialog2(this);
                 size++;
                 break;
             default:

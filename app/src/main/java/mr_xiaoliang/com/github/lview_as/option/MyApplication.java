@@ -16,13 +16,17 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import mr_xiaoliang.com.github.lview_as.R;
 
 public class MyApplication extends Application {
 	
 	private static DisplayImageOptions imageOptions =null;
-
+	private Toast toast;
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -92,5 +96,13 @@ public class MyApplication extends Application {
 			.build();// 构建完成
 		}
 		return imageOptions;
+	}
+	/**
+	 * 吐司（Toast）输出
+	 * @param s
+	 */
+	public void t(String s){
+		toast = Toast.makeText(this,s,Toast.LENGTH_SHORT);
+		toast.show();
 	}
 }

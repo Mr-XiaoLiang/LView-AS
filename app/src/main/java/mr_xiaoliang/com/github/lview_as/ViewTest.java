@@ -7,7 +7,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Display;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -15,16 +18,18 @@ import android.widget.Toast;
 
 import mr_xiaoliang.com.github.lview_as.option.LLoadView2Option;
 import mr_xiaoliang.com.github.lview_as.option.LProgressButtonOption;
+import mr_xiaoliang.com.github.lview_as.option.MyApplication;
 import mr_xiaoliang.com.github.lview_as.view.LGradualView;
 import mr_xiaoliang.com.github.lview_as.view.LLoadView2;
 import mr_xiaoliang.com.github.lview_as.view.LPieView;
 import mr_xiaoliang.com.github.lview_as.view.LProgressButton;
 import mr_xiaoliang.com.github.lview_as.view.LRadarView;
+import mr_xiaoliang.com.github.lview_as.view.LScrollingTextView;
 import mr_xiaoliang.com.github.lview_as.view.LSlideButtonView;
 import mr_xiaoliang.com.github.lview_as.view.LThermometerView;
 import mr_xiaoliang.com.github.lview_as.view.LXiuXiu;
 
-public class ViewTest extends Activity {
+public class ViewTest extends Activity implements LScrollingTextView.LScrollingTextViewListener {
 
 	private LPieView pieView;
 	private LRadarView radarView;
@@ -32,11 +37,15 @@ public class ViewTest extends Activity {
 	private LThermometerView thermometerView;
 	private LProgressButton progressButton;
 	private LXiuXiu lXiuXiu1,lXiuXiu2,lXiuXiu3,lXiuXiu4;
+	private MyApplication application;
+	private MyHandler handler;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
+		handler = new MyHandler();
+		application = (MyApplication) getApplicationContext();
 		switch (intent.getIntExtra("type", 0)) {
 			case 0:
 				setContentView(R.layout.pie);
@@ -169,7 +178,47 @@ public class ViewTest extends Activity {
 			case 19:
 				setContentView(new LGradualView(this));
 				break;
+			case 24:
+				setContentView(R.layout.scrolling_text);
+				LScrollingTextView lScrollingTextView1 = (LScrollingTextView) findViewById(R.id.text1);
+				LScrollingTextView lScrollingTextView2 = (LScrollingTextView) findViewById(R.id.text2);
+				LScrollingTextView lScrollingTextView3 = (LScrollingTextView) findViewById(R.id.text3);
+				LScrollingTextView lScrollingTextView4 = (LScrollingTextView) findViewById(R.id.text4);
+				ArrayList<String> text = new ArrayList<>();
+				for(int i = 0;i<10;i++){
+					text.add("这是第"+i+"条滚动条幅");
+				}
+				lScrollingTextView1.setText(text);
+				lScrollingTextView2.setText(text);
+				lScrollingTextView3.setText(text);
+				lScrollingTextView4.setText(text);
+				lScrollingTextView1.setScrolDirection(LScrollingTextView.ScrolDirection.LEFT);
+				lScrollingTextView2.setScrolDirection(LScrollingTextView.ScrolDirection.RIGHT);
+				lScrollingTextView3.setScrolDirection(LScrollingTextView.ScrolDirection.TOP);
+				lScrollingTextView4.setScrolDirection(LScrollingTextView.ScrolDirection.Bottom);
+				lScrollingTextView1.setlScrollingTextViewListener(this);
+				lScrollingTextView2.setlScrollingTextViewListener(this);
+				lScrollingTextView3.setlScrollingTextViewListener(this);
+				lScrollingTextView4.setlScrollingTextViewListener(this);
+				break;
 		}
 	}
-
+	private class MyHandler extends Handler{
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what){
+				case 200:
+					application.t((String) msg.obj);
+					break;
+			}
+			super.handleMessage(msg);
+		}
+	}
+	@Override
+	public void onScrollingTextClick(View v, int i, String s) {
+		Message message = new Message();
+		message.what = 200;
+		message.obj = "ViewID:"+v.getId()+"\n序号："+i+"\n内容："+s;
+		handler.sendMessage(message);
+	}
 }

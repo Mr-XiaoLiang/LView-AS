@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "tab小点", "日期滚轮", "时间滚轮", "全套滚轮","tab条形",
             "倒计时View","商品列表","支付宝咻一咻","系统自带的抽屉用法演示","现在较流行的抽屉样式",
             "带涟漪的Layout","渐变的View","通讯录","添加快捷方式","删除快捷方式",
-            "水滴加载动画"};
+            "水滴加载动画","跑马灯"};
     private RecyclerView recyclerView;
     private MainAdapter adapter;
     private DialogUtil dialogUtil;

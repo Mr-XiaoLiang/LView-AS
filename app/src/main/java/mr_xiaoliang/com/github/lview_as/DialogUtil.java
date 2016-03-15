@@ -122,7 +122,7 @@ public class DialogUtil {
 		p.width = (int) (d.getWidth() * 0.25);
 		p.height = p.width = Math.min(p.height , p.width);
 		dialog.onWindowAttributesChanged(p);
-//		p.dimAmount = 0f;// 设置背景不变暗
+		p.dimAmount = 0f;// 设置背景不变暗
 		window.setAttributes(p);
 		return dialog;
 	}

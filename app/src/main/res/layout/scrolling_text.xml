@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <mr_xiaoliang.com.github.lview_as.view.LScrollingTextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/text1"
+        android:textSize="50dp"
+        android:textColor="@android:color/holo_red_light"/>
+    <mr_xiaoliang.com.github.lview_as.view.LScrollingTextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/text2"
+        android:textSize="50dp"
+        android:textColor="@android:color/black"/>
+    <mr_xiaoliang.com.github.lview_as.view.LScrollingTextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/text3"
+        android:textSize="50dp"
+        android:textColor="@android:color/holo_green_dark"/>
+    <mr_xiaoliang.com.github.lview_as.view.LScrollingTextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/text4"
+        android:textSize="50dp"
+        android:textColor="@android:color/holo_blue_dark"/>
+</LinearLayout>

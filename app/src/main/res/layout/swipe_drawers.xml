@@ -17,12 +17,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <mr_xiaoliang.com.github.lview_as.view.LXiuXiu
+        <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@mipmap/phone"
-            android:layout_margin="10dp"/>
+            android:src="@mipmap/ic_background"
+            android:scaleType="centerCrop"/>
     </LinearLayout>
 
 

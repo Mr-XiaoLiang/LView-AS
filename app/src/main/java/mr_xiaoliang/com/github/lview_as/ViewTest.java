@@ -16,10 +16,12 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import mr_xiaoliang.com.github.lview_as.option.LLineChartViewOption;
 import mr_xiaoliang.com.github.lview_as.option.LLoadView2Option;
 import mr_xiaoliang.com.github.lview_as.option.LProgressButtonOption;
 import mr_xiaoliang.com.github.lview_as.option.MyApplication;
 import mr_xiaoliang.com.github.lview_as.view.LGradualView;
+import mr_xiaoliang.com.github.lview_as.view.LLineChartView;
 import mr_xiaoliang.com.github.lview_as.view.LLoadView2;
 import mr_xiaoliang.com.github.lview_as.view.LPieView;
 import mr_xiaoliang.com.github.lview_as.view.LProgressButton;
@@ -200,6 +202,22 @@ public class ViewTest extends Activity implements LScrollingTextView.LScrollingT
 				lScrollingTextView2.setlScrollingTextViewListener(this);
 				lScrollingTextView3.setlScrollingTextViewListener(this);
 				lScrollingTextView4.setlScrollingTextViewListener(this);
+				break;
+			case 25:
+				setContentView(R.layout.linechart);
+				LLineChartView lLineChartView = (LLineChartView) findViewById(R.id.linechart);
+				LLineChartView lLineChartView2 = (LLineChartView) findViewById(R.id.linechart2);
+				LLineChartViewOption.Builder bu = new LLineChartViewOption.Builder();
+				bu.setLable(new String[]{"哈哈","嘻嘻","呵呵","呼呼","拉拉","呜呜"});
+				lLineChartView.setOption(new LLineChartViewOption(bu));
+				bu.setIsCurve(false);
+				lLineChartView2.setOption(new LLineChartViewOption(bu));
+				ArrayList<LLineChartView.LLineChartBean> beans = new ArrayList<>();
+				LLineChartView.LLineChartBean b = lLineChartView.new LLineChartBean();
+				b.setLable(new float[]{32,64,95,5,89,54});
+				beans.add(b);
+				lLineChartView.setBeans(beans);
+				lLineChartView2.setBeans(beans);
 				break;
 		}
 	}

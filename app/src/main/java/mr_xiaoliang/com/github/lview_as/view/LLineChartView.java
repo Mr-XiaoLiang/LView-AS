@@ -3,12 +3,16 @@ package mr_xiaoliang.com.github.lview_as.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import mr_xiaoliang.com.github.lview_as.option.LLineChartViewOption;
@@ -50,7 +54,7 @@ public class LLineChartView extends TextView {
     /**
      * 画笔
      */
-    private Paint chartPaint,lablePaint;
+    private Paint chartPaint,lablePaint,gridPaint,pointPaint;
     /**
      * 四个方向的预留
      */
@@ -58,7 +62,7 @@ public class LLineChartView extends TextView {
     /**
      * 移动步长
      */
-    private int step;
+    private float step;
     /**
      * 当前步数
      */
@@ -71,6 +75,14 @@ public class LLineChartView extends TextView {
      * 线条宽度
      */
     private int lineWidth = 0;
+    /**
+     * 浮点数格式化
+     */
+    private DecimalFormat df;
+    /**
+     * 虚线样式
+     */
+    private PathEffect effects;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -81,9 +93,17 @@ public class LLineChartView extends TextView {
             drawLine(canvas);
         }
         if(index>0){
-            invalidate();
             index--;
+            invalidate();
         }
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        width = getWidth();
+        height = getHeight();
+        onDataChange();
+        super.onLayout(changed, left, top, right, bottom);
     }
 
     /**
@@ -93,32 +113,51 @@ public class LLineChartView extends TextView {
     private void drawShell(Canvas canvas){
         int x,y;
         String s;
+        if(df==null)
+            df = new DecimalFormat("0.00");
         Paint.FontMetrics fm = lablePaint.getFontMetrics();
         lablePaint.setTextSize(getTextSize());
         lablePaint.setColor(o.scaleColor);
-        for(int i = 0;i<o.scaleSize;i++){
-            s = (o.maxNum/o.scaleSize*i)+"";
-            x = (int) (left-(0.5+s.length()/2)*getTextSize());
+        gridPaint.setColor(o.scaleColor);
+        //Y轴刻度标记文字
+        for(int i = 0;i<=o.scaleSize;i++){
+            s = df.format(o.maxNum / o.scaleSize * i)+"";
+            x = (int) (left-((0.5+s.length())*0.5)*getTextSize());
             y = (int) (height-bottom-gridH*i- fm.descent + (fm.descent - fm.ascent) / 2);
             canvas.drawText(s,x,y,lablePaint);
         }
-        y = (int) (height - getTextSize() - getTextSize() - fm.descent + (fm.descent - fm.ascent) / 2);
+        //X轴刻度文字
+        y = (int) (height - getTextSize() - fm.descent + (fm.descent - fm.ascent) / 2);
         for(int i = 0;i<o.lable.length;i++){
             s = o.lable[i];
-            x = left+gridW*i;
+            x = left+gridW*(i+1);
             canvas.drawText(s,x,y,lablePaint);
         }
-        lablePaint.setStrokeWidth(lineWidth);
-        canvas.drawLine(left, 0, left, height - bottom, lablePaint);
-        canvas.drawLine(left,height-bottom,height-bottom,width,lablePaint);
-        lablePaint.setStrokeWidth(lineWidth / 2);
-        lablePaint.setColor(o.gridColor);
-        for(int i = 0;i<o.scaleSize;i++){
-            canvas.drawLine(left,height-bottom-i*gridH,height-bottom-i*gridH,width,lablePaint);
+        //画线
+        gridPaint.setStrokeWidth(lineWidth);
+        Path xyPath = new Path();
+        xyPath.moveTo(left, top);
+        //Y轴
+        xyPath.lineTo(left, height - bottom);
+        //X轴
+        xyPath.lineTo(width-right, height - bottom);
+        canvas.drawPath(xyPath, gridPaint);
+        //更新线宽度
+        gridPaint.setStrokeWidth(lineWidth*0.3f);
+        //更新线颜色
+        gridPaint.setColor(o.gridColor);
+        if(effects==null)
+            effects = new DashPathEffect(new float[] { lineWidth, lineWidth, lineWidth*4, lineWidth}, 1);
+        gridPaint.setPathEffect(effects);
+        //绘制横向网格线
+        for(int i = 1;i<o.scaleSize;i++){
+            canvas.drawLine(left,height-bottom-i*gridH,width-right,height-bottom-i*gridH,gridPaint);
         }
-        for(int i = 0;i<o.lable.length;i++){
-            canvas.drawLine(left+i*gridW, 0, left+i*gridW, height - bottom, lablePaint);
+        //绘制纵向网格线
+        for(int i = 1;i<=o.lable.length;i++){
+            canvas.drawLine(left+i*gridW, top, left+i*gridW, height - bottom, gridPaint);
         }
+        gridPaint.setPathEffect(null);
     }
 
     /**
@@ -126,36 +165,42 @@ public class LLineChartView extends TextView {
      * @param canvas 画布
      */
     private void drawScrollLine(Canvas canvas){
-        int x = 0,y = 0;
-        int x1 = 0,y1 = 0;
-        int x2 = 0,y2 = 0;
+        int x,y;
+        int x1,y1;
+        int x2,y2;
+        int ind;
         chartPaint.setColor(o.lineColor);
+        pointPaint.setColor(o.lineColor);
+        lablePaint.setColor(o.lineColor);
         Paint.FontMetrics fm = chartPaint.getFontMetrics();
-        chartPaint.setTextSize(getTextSize());
-        float textY = 0;
+        chartPaint.setStrokeWidth(lineWidth);
+        pointPaint.setStrokeWidth(lineWidth);
+        float textY;
+        ind = (int) (index*step+top);
         for(LLineChartBean bean:beans){
             Path path = new Path();
             for(int i = 0;i<bean.lable.length;i++){
-                x = left+i*gridW;
+                x = left+(i+1)*gridW;
                 y = (int) ((1-bean.lable[i]/o.maxNum)*(height-top-bottom)+top);
-                x1 = x2 = (int) (left+i*gridW+0.5*gridW);
-                if(i>0)
+                x1 = x2 = (int) (left+(i+1)*gridW-0.5*gridW);
+                if(i>0) {
                     y1 = (int) ((1-bean.lable[i-1]/o.maxNum)*(height-top-bottom)+top);
-                else
+                }
+                else {
                     y1 = y;
+                }
                 y2 = y;
-
-                y = y<index*step?y:index*step;
-                y1 = y1<index*step?y1:index*step;
-                y2 = y2<index*step?y2:index*step;
+                y = y>ind?y:ind;
+                y1 = y1>ind?y1:ind;
+                y2 = y2>ind?y2:ind;
                 if(i==0){
                     path.moveTo(x,y);
                 }else{
                     path.cubicTo(x1,y1,x2,y2,x,y);
                 }
-                canvas.drawCircle(x,y,lineWidth,chartPaint);
+                canvas.drawCircle(x,y,lineWidth,pointPaint);
                 textY = y - lineWidth - getTextSize() - fm.descent + (fm.descent - fm.ascent) / 2;
-                canvas.drawText(bean.lable[i]+"",x,textY,chartPaint);
+                canvas.drawText(bean.lable[i]+"",x,textY,lablePaint);
             }
             canvas.drawPath(path,chartPaint);
         }
@@ -166,25 +211,30 @@ public class LLineChartView extends TextView {
      * @param canvas 画布
      */
     private void drawLine(Canvas canvas){
-        int x = 0,y = 0;
+        int x,y,ind;
         chartPaint.setColor(o.lineColor);
+        pointPaint.setColor(o.lineColor);
+        lablePaint.setColor(o.lineColor);
         Paint.FontMetrics fm = chartPaint.getFontMetrics();
-        chartPaint.setTextSize(getTextSize());
-        float textY = 0;
+        chartPaint.setStrokeWidth(lineWidth);
+        pointPaint.setStrokeWidth(lineWidth);
+        float textY;
+        ind = (int) (index*step+top);
         for(LLineChartBean bean:beans){
             Path path = new Path();
             for(int i = 0;i<bean.lable.length;i++){
-                x = left+i*gridW;
+                x = left+(i+1)*gridW;
                 y = (int) ((1-bean.lable[i]/o.maxNum)*(height-top-bottom)+top);
-                y = y<index*step?y:index*step;
+
+                y = y>ind?y:ind;
                 if(i==0){
                     path.moveTo(x,y);
                 }else{
                     path.lineTo(x, y);
                 }
-                canvas.drawCircle(x,y,lineWidth,chartPaint);
+                canvas.drawCircle(x,y,lineWidth,pointPaint);
                 textY = y - lineWidth - getTextSize() - fm.descent + (fm.descent - fm.ascent) / 2;
-                canvas.drawText(bean.lable[i]+"",x,textY,chartPaint);
+                canvas.drawText(bean.lable[i]+"",x,textY,lablePaint);
             }
             canvas.drawPath(path,chartPaint);
         }
@@ -194,7 +244,7 @@ public class LLineChartView extends TextView {
     protected void onWindowVisibilityChanged(int visibility) {
         width = getWidth();
         height = getHeight();
-        onDataChange();
+//        onDataChange();
         super.onWindowVisibilityChanged(visibility);
     }
 
@@ -205,18 +255,20 @@ public class LLineChartView extends TextView {
                 if(l.length()>i)
                     i = l.length();
             }
-            left = (int) ((o.maxNum+"").length()*getTextSize());
+            if(df==null)
+                df = new DecimalFormat("0.00");
+            left = (int) (df.format(o.maxNum).length()*getTextSize());
             bottom = top = right = (int) (2*getTextSize());
             if(o.canSlide){
                 gridW = (int) ((i+1)*getTextSize());
             }else{
-                gridW = (width-left-right)/o.lable.length;
+                gridW = (int) ((width-left-right)*1.0/(o.lable.length+1));
             }
-            gridH = (height-top-bottom)/o.scaleSize;
+            gridH = (int) ((height-top-bottom)*1.0/o.scaleSize);
         }
-        step = (height-top-bottom)/maxIndex;
+        step = (height-4*getTextSize())/maxIndex;
         if(lineWidth == 0){
-            lineWidth = height/20;
+            lineWidth = height/100;
         }
         index = maxIndex;
     }
@@ -251,14 +303,41 @@ public class LLineChartView extends TextView {
         super(context, attrs, defStyleAttr);
         chartPaint  = new Paint();
         lablePaint = new Paint();
+        gridPaint = new Paint();
+        pointPaint = new Paint();
         chartPaint.setAntiAlias(true);
         lablePaint.setAntiAlias(true);
-        chartPaint.setTextAlign(Paint.Align.CENTER);
+        gridPaint.setAntiAlias(true);
+        pointPaint.setAntiAlias(true);
+        lablePaint.setStyle(Paint.Style.STROKE);
+        chartPaint.setStyle(Paint.Style.STROKE);
+        gridPaint.setStyle(Paint.Style.STROKE);
+        pointPaint.setStyle(Paint.Style.FILL);
         lablePaint.setTextAlign(Paint.Align.CENTER);
     }
     public class LLineChartBean{
         float[] lable;
         int color;
+
+        public LLineChartBean() {
+        }
+
+        public LLineChartBean(float[] lable) {
+            this.lable = lable;
+        }
+
+        public LLineChartBean(float[] lable, int color) {
+            this.lable = lable;
+            this.color = color;
+        }
+
+        public void setLable(float[] lable) {
+            this.lable = lable;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
+        }
     }
 
 }

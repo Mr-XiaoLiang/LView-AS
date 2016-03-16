@@ -2,11 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="2"
-    android:gravity="center">
+    android:weightSum="3"
+    android:gravity="center"
+    android:background="@color/black">
     <mr_xiaoliang.com.github.lview_as.view.LLineChartView
         android:textSize="10dp"
         android:id="@+id/linechart"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"/>
+    <mr_xiaoliang.com.github.lview_as.view.LLineChartView
+        android:textSize="10dp"
+        android:id="@+id/linechart2"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"/>

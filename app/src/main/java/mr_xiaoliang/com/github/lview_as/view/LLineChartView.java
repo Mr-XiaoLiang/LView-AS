@@ -92,9 +92,9 @@ public class LLineChartView extends TextView {
         }else{
             drawLine(canvas);
         }
-        if(index>0){
-            index--;
+        if(index<maxIndex){
             invalidate();
+            index++;
         }
     }
 
@@ -176,7 +176,7 @@ public class LLineChartView extends TextView {
         chartPaint.setStrokeWidth(lineWidth);
         pointPaint.setStrokeWidth(lineWidth);
         float textY;
-        ind = (int) (index*step+top);
+        ind = (int) ((1-1.0*index/maxIndex)*(height-top-bottom)+top);
         for(LLineChartBean bean:beans){
             Path path = new Path();
             for(int i = 0;i<bean.lable.length;i++){
@@ -219,7 +219,7 @@ public class LLineChartView extends TextView {
         chartPaint.setStrokeWidth(lineWidth);
         pointPaint.setStrokeWidth(lineWidth);
         float textY;
-        ind = (int) (index*step+top);
+        ind = (int) ((1-1.0*index/maxIndex)*(height-top-bottom)+top);
         for(LLineChartBean bean:beans){
             Path path = new Path();
             for(int i = 0;i<bean.lable.length;i++){
@@ -270,7 +270,7 @@ public class LLineChartView extends TextView {
         if(lineWidth == 0){
             lineWidth = height/100;
         }
-        index = maxIndex;
+        index = 0;
     }
 
 

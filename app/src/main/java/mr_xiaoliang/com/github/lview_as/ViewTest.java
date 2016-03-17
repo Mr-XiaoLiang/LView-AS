@@ -214,7 +214,7 @@ public class ViewTest extends Activity implements LScrollingTextView.LScrollingT
 				lLineChartView2.setOption(new LLineChartViewOption(bu));
 				ArrayList<LLineChartView.LLineChartBean> beans = new ArrayList<>();
 				LLineChartView.LLineChartBean b = lLineChartView.new LLineChartBean();
-				b.setLable(new float[]{32,64,95,5,89,54});
+				b.setLable(new float[]{32,64,95,0,89,54});
 				beans.add(b);
 				lLineChartView.setBeans(beans);
 				lLineChartView2.setBeans(beans);

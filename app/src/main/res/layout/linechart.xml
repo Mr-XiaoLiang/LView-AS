@@ -6,13 +6,13 @@
     android:gravity="center"
     android:background="@color/black">
     <mr_xiaoliang.com.github.lview_as.view.LLineChartView
-        android:textSize="10dp"
+        android:textSize="15dp"
         android:id="@+id/linechart"
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_weight="1"/>
     <mr_xiaoliang.com.github.lview_as.view.LLineChartView
-        android:textSize="10dp"
+        android:textSize="15dp"
         android:id="@+id/linechart2"
         android:layout_width="match_parent"
         android:layout_height="0px"

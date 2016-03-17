@@ -213,11 +213,15 @@ public class ViewTest extends Activity implements LScrollingTextView.LScrollingT
 				bu.setIsCurve(false);
 				lLineChartView2.setOption(new LLineChartViewOption(bu));
 				ArrayList<LLineChartView.LLineChartBean> beans = new ArrayList<>();
-				LLineChartView.LLineChartBean b = lLineChartView.new LLineChartBean();
-				b.setLable(new float[]{32,64,95,0,89,54});
+				ArrayList<LLineChartView.LLineChartBean> beans2 = new ArrayList<>();
+				LLineChartView.LLineChartBean b = lLineChartView.new LLineChartBean(new float[]{32,64,95,0,89,54},Color.WHITE);
+				LLineChartView.LLineChartBean b2 = lLineChartView.new LLineChartBean(new float[]{85,36,18,56,32,17},Color.GREEN);
 				beans.add(b);
+				beans.add(b2);
+				beans2.add(b2);
+				beans2.add(b);
 				lLineChartView.setBeans(beans);
-				lLineChartView2.setBeans(beans);
+				lLineChartView2.setBeans(beans2);
 				break;
 		}
 	}

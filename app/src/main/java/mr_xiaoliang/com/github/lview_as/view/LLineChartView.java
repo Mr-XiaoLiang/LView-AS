@@ -195,7 +195,7 @@ public class LLineChartView extends TextView {
                     path.cubicTo(x1, y1, x2, y2, x, y);
                 }
                 canvas.drawCircle(x, y, lineWidth, pointPaint);
-                textY = y - lineWidth - getTextSize() - fm.descent + (fm.descent - fm.ascent) / 2;
+                textY = y - lineWidth - getTextSize()/2 - fm.descent + (fm.descent - fm.ascent) / 2;
                 canvas.drawText(bean.lable[i] + "", x, textY, lablePaint);
             }
             canvas.drawPath(path, chartPaint);
@@ -234,7 +234,7 @@ public class LLineChartView extends TextView {
                     path.lineTo(x, y);
                 }
                 canvas.drawCircle(x, y, lineWidth, pointPaint);
-                textY = y - lineWidth - getTextSize() - fm.descent + (fm.descent - fm.ascent) / 2;
+                textY = y - lineWidth - getTextSize()/2 - fm.descent + (fm.descent - fm.ascent) / 2;
                 canvas.drawText(bean.lable[i] + "", x, textY, lablePaint);
             }
             canvas.drawPath(path, chartPaint);

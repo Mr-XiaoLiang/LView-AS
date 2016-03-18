@@ -257,7 +257,6 @@ public class LLoadView extends View {
 	/**
 	 * 获取角度
 	 *
-	 * @param x
 	 * @return
 	 */
 	private float[] getAngle1() {
@@ -270,7 +269,6 @@ public class LLoadView extends View {
 	/**
 	 * 获取角度
 	 *
-	 * @param x
 	 * @return
 	 */
 	private float[] getAngle2() {
@@ -283,7 +281,6 @@ public class LLoadView extends View {
 	/**
 	 * 获取角度
 	 *
-	 * @param x
 	 * @return
 	 */
 	private float[] getAngle3() {

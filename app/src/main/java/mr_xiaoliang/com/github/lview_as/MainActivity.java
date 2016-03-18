@@ -9,15 +9,14 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
 import mr_xiaoliang.com.github.lview_as.dialog.CalendarDialog;
 import mr_xiaoliang.com.github.lview_as.dialog.LWheelDialog;
+import mr_xiaoliang.com.github.lview_as.util.DialogUtil;
 import mr_xiaoliang.com.github.lview_as.util.ShortcutUtil;
 import mr_xiaoliang.com.github.lview_as.view.LCalendarView;
 import mr_xiaoliang.com.github.lview_as.view.LClockView;

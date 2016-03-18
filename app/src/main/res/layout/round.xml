@@ -4,7 +4,7 @@
     android:weightSum="2" 
     android:orientation="vertical"
     android:gravity="center">
-	<mr_xiaoliang.com.github.lview_as.view.RoundImageView
+	<mr_xiaoliang.com.github.lview_as.view.LImageView
 	    android:layout_width="fill_parent"
 	    android:layout_height="0px"
 	    android:layout_weight="1"

@@ -1,8 +1,5 @@
 package mr_xiaoliang.com.github.lview_as;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,13 +13,14 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import mr_xiaoliang.com.github.lview_as.option.LLineChartViewOption;
-import mr_xiaoliang.com.github.lview_as.option.LLoadView2Option;
 import mr_xiaoliang.com.github.lview_as.option.LProgressButtonOption;
 import mr_xiaoliang.com.github.lview_as.option.MyApplication;
 import mr_xiaoliang.com.github.lview_as.view.LGradualView;
 import mr_xiaoliang.com.github.lview_as.view.LLineChartView;
-import mr_xiaoliang.com.github.lview_as.view.LLoadView2;
 import mr_xiaoliang.com.github.lview_as.view.LPieView;
 import mr_xiaoliang.com.github.lview_as.view.LProgressButton;
 import mr_xiaoliang.com.github.lview_as.view.LRadarView;

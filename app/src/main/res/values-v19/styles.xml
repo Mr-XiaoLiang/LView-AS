@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="AppTheme" parent="BaseStyle">
+        <!--透明状态栏-->
+        <item name="android:windowTranslucentStatus">true</item>
+        <!--页面没有Title-->
+        <item name="windowNoTitle">true</item>
+        <!--虚拟按键透明（华为之类的）-->
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+</resources>

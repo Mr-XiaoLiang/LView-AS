@@ -88,9 +88,10 @@ public class LScratchCard extends View {
      * 给画笔，后期不修改成熟的情况下，不会增加消耗，仅仅是把两张图片反复绘制而已。
      * @param canvas
      */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDraw(Canvas canvas) {
-        if(option == null)
+        if(option == null||width<1||height<1)
             return;
         if(noMulch){//如果清除遮罩，那么直接绘制结果
             canvas.drawRect(0,0,width,height,valuePaint);
@@ -103,16 +104,22 @@ public class LScratchCard extends View {
             touchCanvas.drawRect(0,0,width,height,mulchPaint);
             // 我们在绘制路径之前设置我们的mulchPaint
             mulchPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+            mulchPaint.setStyle(Paint.Style.STROKE);
             for(Path p:path)//使用一个集合的原因是：每次按下抬起都是一个独立的path，不应该让按下抬起的的位置连接起来
                 touchCanvas.drawPath(p, mulchPaint);
             mulchPaint.setXfermode(null);//要把笔还原，不然下次会接着再切
             finishCanvas.drawBitmap(touchBmp,0,0,touchPaint);
         }else{
             finishCanvas.drawRect(0,0,width,height,mulchPaint);
+            valuePaint.setStyle(Paint.Style.STROKE);
             for(Path p:path)
                 finishCanvas.drawPath(p, valuePaint);
         }
-        canvas.drawBitmap(finishBmp,0,0,null);
+        mulchPaint.setStyle(Paint.Style.FILL);
+        valuePaint.setStyle(Paint.Style.FILL);
+//        canvas.drawBitmap(finishBmp,0,0,null);
+        touchPaint.setShader(new BitmapShader(finishBmp, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+        canvas.drawRoundRect(0,0,width,height,option.roundRadius,option.roundRadius,touchPaint);
     }
 
     @Override
@@ -129,14 +136,14 @@ public class LScratchCard extends View {
                     lastX = event.getX();
                     lastY = event.getY();
                     invalidate();
-                    if(threadPool!=null){
-                        threadPool.execute(new CheckAutoClean());
-                    }else{
-                        new Thread(new CheckAutoClean()).start();
-                    }
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                if(threadPool!=null){
+                    threadPool.execute(new CheckAutoClean());
+                }else{
+                    new Thread(new CheckAutoClean()).start();
+                }
                 break;
             case MotionEvent.ACTION_DOWN:
                 p = new Path();
@@ -147,7 +154,7 @@ public class LScratchCard extends View {
                 invalidate();
                 break;
         }
-        return super.onTouchEvent(event);
+        return true;
     }
 
     @Override
@@ -221,12 +228,11 @@ public class LScratchCard extends View {
     }
 
     private void init(){
-        if(option == null||width<0||height<0)
+        if(option == null||width<1||height<1)
             return;
         valueText = option.text;
         mulchText = option.mulchText;
-        radius = (int) (Math.sqrt(width*width+height*height)*0.5);
-//        mulchPaint.setStrokeWidth(option.touchWdth);
+        mulchPaint.setStrokeWidth(option.touchWdth);
         valuePaint.setStrokeWidth(option.touchWdth);
         touchPaint.setStrokeWidth(option.touchWdth);
         if(mulchBmp==null||mulchBmp.getWidth()!=width||mulchBmp.getHeight()!=height){
@@ -261,23 +267,19 @@ public class LScratchCard extends View {
         //绘制颜色背景，最低优先级
         if(option.backgroundColor!=null&&option.backgroundColor.length>0){
             if(option.backgroundColor.length>1){
-                int[] xy = getLinearGradientXY(option.backgroundColorAngle,radius);
-                float[] positions = new float[option.backgroundColor.length];
-                for(int i = 0;i<positions.length;i++){
-                    positions[i] = 1;
-                }
-                Shader bgShader = new LinearGradient(xy[0],xy[1],xy[2],xy[3],option.backgroundColor,positions,Shader.TileMode.MIRROR);
+                int[] xy = getLinearGradientXY(option.backgroundColorAngle,width,height,0,0);
+                Shader bgShader = new LinearGradient(xy[0],xy[1],xy[2],xy[3],option.backgroundColor,null,Shader.TileMode.MIRROR);
                 valuePaint.setShader(bgShader);
             }else{
                 valuePaint.setColor(option.backgroundColor[0]);
                 valuePaint.setShader(null);
             }
             //内容图层绘制背景
-            valueCanvas.drawRoundRect(0,0,width,height,option.roundRadius,option.roundRadius,valuePaint);
+            valueCanvas.drawRect(0,0,width,height,valuePaint);
         }
         //绘制图片背景，中等优先级
         if(option.backgroundImg!=null){
-            valuePaint.setShader(bitmapChagne(option.backgroundImg,option.backgroundImgScaleType));
+            valuePaint.setShader(bitmapChange(option.backgroundImg,option.backgroundImgScaleType));
             //内容图层绘制背景
             drawImg(valueCanvas,option.backgroundImgScaleType,option.backgroundImg,valuePaint);
         }
@@ -286,11 +288,11 @@ public class LScratchCard extends View {
             //绘制渲染，最高优先级
             valuePaint.setShader(option.backgroundImgShader);
             //内容图层绘制背景
-            valueCanvas.drawRoundRect(0,0,width,height,option.roundRadius,option.roundRadius,valuePaint);
+            valueCanvas.drawRect(0,0,width,height,valuePaint);
         }
         //再画图片内容层
         if(option.valueImg!=null){
-            valuePaint.setShader(bitmapChagne(option.valueImg,option.valueImgScaleType));
+            valuePaint.setShader(bitmapChange(option.valueImg,option.valueImgScaleType));
             //内容图层绘制背景
             drawImg(valueCanvas,option.valueImgScaleType,option.valueImg,valuePaint);
         }
@@ -307,12 +309,9 @@ public class LScratchCard extends View {
                 valuePaint.setShader(option.textColorShader);
             }else if(option.textColor!=null&&option.textColor.length>0){
                 if(option.textColor.length>1){
-                    int[] xy = getLinearGradientXY(option.textColorAngle,valueText.length()*option.textSize/2);
-                    float[] positions = new float[option.textColor.length];
-                    for(int i = 0;i<positions.length;i++){
-                        positions[i] = 1;
-                    }
-                    Shader bgShader = new LinearGradient(xy[0],xy[1],xy[2],xy[3],option.textColor,positions,Shader.TileMode.MIRROR);
+                    int[] xy = getLinearGradientXY(option.textColorAngle,valueText.length()*option.textSize,option.textSize, (int) ((width-valueText.length()*option.textSize)*0.5), (int) ((height-option.textSize)*0.5)
+                    );
+                    Shader bgShader = new LinearGradient(xy[0],xy[1],xy[2],xy[3],option.textColor,null,Shader.TileMode.MIRROR);
                     valuePaint.setShader(bgShader);
                 }else{
                     valuePaint.setShader(null);
@@ -336,23 +335,19 @@ public class LScratchCard extends View {
         //绘制颜色背景，最低优先级
         if(option.mulchColor!=null&&option.mulchColor.length>0){
             if(option.mulchColor.length>1){
-                int[] xy = getLinearGradientXY(option.mulchColorAngle,radius);
-                float[] positions = new float[option.mulchColor.length];
-                for(int i = 0;i<positions.length;i++){
-                    positions[i] = 1;
-                }
-                Shader bgShader = new LinearGradient(xy[0],xy[1],xy[2],xy[3],option.mulchColor,positions,Shader.TileMode.MIRROR);
+                int[] xy = getLinearGradientXY(option.mulchColorAngle,width,height,0,0);
+                Shader bgShader = new LinearGradient(xy[0],xy[1],xy[2],xy[3],option.mulchColor,null,Shader.TileMode.MIRROR);
                 mulchPaint.setShader(bgShader);
             }else{
-                mulchPaint.setShader(null);
                 mulchPaint.setColor(option.mulchColor[0]);
+                mulchPaint.setShader(null);
             }
             //内容图层绘制背景
-            mulchCanvas.drawRoundRect(0,0,width,height,option.roundRadius,option.roundRadius,mulchPaint);
+            mulchCanvas.drawRect(0,0,width,height,mulchPaint);
         }
         //绘制图片背景，中等优先级
         if(option.mulchImg!=null){
-            mulchPaint.setShader(bitmapChagne(option.mulchImg,option.mulchImgScaleType));
+            mulchPaint.setShader(bitmapChange(option.mulchImg,option.mulchImgScaleType));
             //内容图层绘制背景
             drawImg(mulchCanvas,option.mulchImgScaleType,option.mulchImg,mulchPaint);
         }
@@ -369,12 +364,13 @@ public class LScratchCard extends View {
             if(option.mulchTextColorShader!=null){
                 mulchPaint.setShader(option.mulchTextColorShader);
             }else if(option.mulchTextColor!=null&&option.mulchTextColor.length>0){
-                int[] xy = getLinearGradientXY(option.mulchTextColorAngle,mulchText.length()*option.mulchTextSize/2);
-                float[] positions = new float[option.mulchTextColor.length];
-                for(int i = 0;i<positions.length;i++){
-                    positions[i] = 1;
-                }
-                Shader bgShader = new LinearGradient(xy[0],xy[1],xy[2],xy[3],option.mulchTextColor,positions,Shader.TileMode.MIRROR);
+                int[] xy = getLinearGradientXY(
+                        option.mulchTextColorAngle,
+                        mulchText.length()*option.mulchTextSize,
+                        option.mulchTextSize,
+                        (int)((width-mulchText.length()*option.mulchTextSize)*0.5),
+                        (int)((height-option.mulchTextSize)*0.5));
+                Shader bgShader = new LinearGradient(xy[0],xy[1],xy[2],xy[3],option.mulchTextColor,null,Shader.TileMode.MIRROR);
                 mulchPaint.setShader(bgShader);
             }
             Paint.FontMetrics fm = mulchPaint.getFontMetrics();
@@ -390,75 +386,91 @@ public class LScratchCard extends View {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void drawImg(Canvas canvas, ImageView.ScaleType st, Bitmap bitmap,Paint paint){
         int tx,ty;
+        float f;
+        int w,h;
         if(st == ImageView.ScaleType.CENTER){
             //如果使用居中模式，那么就把图片移动到中间再来绘制
-            tx = (width-bitmap.getWidth())/2;
-            ty = (height-bitmap.getHeight())/2;
+            //此处及以下，使用乘法而不使用除法的原因是，为了防止图片和View一样大的时候，0/2造成异常
+            tx = (int) ((width-bitmap.getWidth())*0.5);
+            ty = (int) ((height-bitmap.getHeight())*0.5);
             canvas.save();
             canvas.translate(tx,ty);
-            canvas.drawRoundRect(-tx,-ty,width,height,option.roundRadius,option.roundRadius,paint);
+            canvas.drawRect(0,0,bitmap.getWidth(),bitmap.getHeight(),paint);
             canvas.restore();
         }else if(st == ImageView.ScaleType.CENTER_INSIDE){
-            tx = width>height?(width-height)/2:0;
-            ty = width<height?(height-width)/2:0;
+            f = Math.min(1.0f*width/bitmap.getWidth(),1.0f*height/bitmap.getHeight());
+            ty = (int) ((height-bitmap.getHeight()*f)*0.5);
+            tx = (int) ((width-bitmap.getWidth()*f)*0.5);
+            w = (int) (bitmap.getWidth()*f);
+            h = (int) (bitmap.getHeight()*f);
             canvas.save();
             canvas.translate(tx,ty);
-            canvas.drawRoundRect(-tx,-ty,width,height,option.roundRadius,option.roundRadius,paint);
+            canvas.drawRect(0,0,w,h,paint);
             canvas.restore();
         }else if(st == ImageView.ScaleType.CENTER_CROP){
-            
+            f = Math.max(1.0f*width/bitmap.getWidth(),1.0f*height/bitmap.getHeight());
+            ty = (int) ((height-bitmap.getHeight()*f)*0.5);
+            tx = (int) ((width-bitmap.getWidth()*f)*0.5);
+            w = (int) (bitmap.getWidth()*f);
+            h = (int) (bitmap.getHeight()*f);
+            canvas.save();
+            canvas.translate(tx,ty);
+//            canvas.drawRoundRect(-tx,-ty,width,height,option.roundRadius,option.roundRadius,paint);
+            canvas.drawRect(-tx,-ty,w,h,paint);
+            canvas.restore();
         }else{
-            canvas.drawRoundRect(0,0,width,height,option.roundRadius,option.roundRadius,paint);
+            canvas.drawRect(0,0,width,height,paint);
         }
     }
 
     //将线性的颜色渐变角度转换为渲染器需要的两个坐标点
-    private int[] getLinearGradientXY(float a,int r){
+    private int[] getLinearGradientXY(float a,int w,int h,int x,int y){
         int[] xy = new int[4];
+        int r = (int) (Math.sqrt(w*w+h*h)*0.5);
         if(a%90<1){//垂直于边，则不把坐标点放在外圆上
             switch ((int)a/90%4){//取得角度的朝向
                 case 0://角度平行于宽，则直接取两左右边的中点
                     xy[0] = 0;
-                    xy[1] = xy[3] = height/2;
-                    xy[2] = width;
+                    xy[1] = xy[3] = h/2;
+                    xy[2] = w;
                     break;
                 case 1://角度垂直于宽，则直接取上下两边中点
                     xy[1] = 0;
-                    xy[0] = xy[2] = width/2;
-                    xy[3] = height;
+                    xy[0] = xy[2] = w/2;
+                    xy[3] = h;
                     break;
                 case 2://角度平行于宽，则直接取两左右边的中点
                     xy[2] = 0;
-                    xy[1] = xy[3] = height/2;
-                    xy[0] = width;
+                    xy[1] = xy[3] = h/2;
+                    xy[0] = w;
                     break;
                 case 3://角度垂直于宽，则直接取上下两边中点
                     xy[3] = 0;
-                    xy[0] = xy[2] = width/2;
-                    xy[1] = height;
+                    xy[0] = xy[2] = w/2;
+                    xy[1] = h;
                     break;
             }
         }else{//根据旋转的角度，计算线段的起始点与终点，这是个三角函数（我讨厌三角函数）
-            xy[0] = (int) (Math.cos(Math.toRadians(a))*r+width/2);
-            xy[1] = (int) (Math.sin(Math.toRadians(a))*r+height/2);
-            xy[2] = (xy[0]-width/2)*-1+width/2;
-            xy[3] = (xy[1]-height/2)*-1+height/2;
+            xy[0] = (int) (Math.cos(Math.toRadians(a))*r+w/2+x);
+            xy[1] = (int) (Math.sin(Math.toRadians(a))*r+h/2+y);
+            xy[2] = (xy[0]-w/2)*-1+w/2+x;
+            xy[3] = (xy[1]-h/2)*-1+h/2+y;
         }
         return xy;
     }
 
     //将传入的图片剪切成需要的样子（将不合尺寸的图片进行拉伸或者剪切）
-    private Shader bitmapChagne(Bitmap bmp,ImageView.ScaleType st){
+    private Shader bitmapChange(Bitmap bmp,ImageView.ScaleType st){
         // 将bmp作为着色器，就是在指定区域内绘制bmp
-        Shader mBitmapShader = new BitmapShader(bmp, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+        Shader mBitmapShader = new BitmapShader(bmp, Shader.TileMode.MIRROR, Shader.TileMode.MIRROR);
         float scaleW = 1.0f,scaleH = 1.0f;
         if(st == ImageView.ScaleType.CENTER_CROP){
-            scaleW = scaleH = Math.max(width / bmp.getWidth(), height / bmp.getHeight());
+            scaleW = scaleH = Math.max(1.0f*width / bmp.getWidth(), 1.0f*height / bmp.getHeight());
         }else if(st == ImageView.ScaleType.CENTER_INSIDE){
-            scaleW = scaleH = Math.max(width / bmp.getWidth(), height / bmp.getHeight());
+            scaleW = scaleH = Math.min(1.0f*width / bmp.getWidth(),1.0f* height / bmp.getHeight());
         }else if(st == ImageView.ScaleType.FIT_XY){
-            scaleW = width / bmp.getWidth();
-            scaleH = height / bmp.getHeight();
+            scaleW = 1.0f*width / bmp.getWidth();
+            scaleH = 1.0f*height / bmp.getHeight();
         }else if(st == ImageView.ScaleType.CENTER){
             scaleW = 1;
             scaleH = 1;
@@ -513,18 +525,21 @@ public class LScratchCard extends View {
         mulchPaint.setTextAlign(Paint.Align.CENTER);
         mulchPaint.setStrokeJoin(Paint.Join.ROUND);// 设置连接方式为圆角
         mulchPaint.setStrokeCap(Paint.Cap.ROUND);// 设置画笔笔刷类型
+        mulchPaint.setStyle(Paint.Style.FILL);
         valuePaint = new Paint();
         valuePaint.setAntiAlias(true);
         valuePaint.setDither(true);
         valuePaint.setTextAlign(Paint.Align.CENTER);
         valuePaint.setStrokeJoin(Paint.Join.ROUND);// 设置连接方式为圆角
         valuePaint.setStrokeCap(Paint.Cap.ROUND);// 设置画笔笔刷类型
+        valuePaint.setStyle(Paint.Style.FILL);
         touchPaint = new Paint();
         touchPaint.setAntiAlias(true);
         touchPaint.setDither(true);
         touchPaint.setColor(Color.BLACK);
         touchPaint.setStrokeJoin(Paint.Join.ROUND);// 设置连接方式为圆角
         touchPaint.setStrokeCap(Paint.Cap.ROUND);// 设置画笔笔刷类型
+        touchPaint.setStyle(Paint.Style.FILL);
         path = new ArrayList<>();
     }
 

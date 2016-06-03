@@ -102,9 +102,9 @@ public class LScratchCardOption {
         //覆盖层文本内容
         private String mulchText = "";
         //文本字体大小
-        private int textSize = -1;
+        private int textSize = 50;
         //覆盖层文本字体大小
-        private int mulchTextSize = -1;
+        private int mulchTextSize = 50;
         //透明背景
         private boolean transparentBg = false;
         //文字颜色

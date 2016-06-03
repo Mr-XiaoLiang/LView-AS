@@ -26,7 +26,7 @@ public class ScratchCardActivity extends AppCompatActivity implements SeekBar.On
     private LScratchCardOption.Builder builder;
     private LScratchCard scratchCard;
     private TextView mulchText,valueText;
-    private Button mulchBtn,valueBtn;
+    private Button mulchBtn,valueBtn,mulchTextSizeBarBtn,valueTextSizeBarBtn,touchWidthBarBtn,autoCleanSizeBarBtn,roundRadiusBarBtn;
     private SeekBar mulchTextSizeBar,valueTextSizeBar,touchWidthBar,autoCleanSizeBar,roundRadiusBar;
     private Switch transparentBg,autoClean;
     private Resources res;
@@ -42,31 +42,58 @@ public class ScratchCardActivity extends AppCompatActivity implements SeekBar.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         scratchCard = (LScratchCard) findViewById(R.id.scratchcard);
-        mulchText = (TextView) findViewById(R.id.mulch_text);
-        valueText = (TextView) findViewById(R.id.value_text);
-        mulchBtn = (Button) findViewById(R.id.mulch_btn);
-        valueBtn = (Button) findViewById(R.id.value_btn);
-        mulchTextSizeBar = (SeekBar) findViewById(R.id.mulch_size);
-        valueTextSizeBar = (SeekBar) findViewById(R.id.value_size);
-        touchWidthBar = (SeekBar) findViewById(R.id.touch_width);
-        autoCleanSizeBar = (SeekBar) findViewById(R.id.auto_clean_size);
-        roundRadiusBar = (SeekBar) findViewById(R.id.round_radius);
-        transparentBg = (Switch) findViewById(R.id.transparent_bg);
-        autoClean = (Switch) findViewById(R.id.auto_clean);
+//        mulchText = (TextView) findViewById(R.id.mulch_text);
+//        valueText = (TextView) findViewById(R.id.value_text);
+//        mulchBtn = (Button) findViewById(R.id.mulch_btn);
+//        valueBtn = (Button) findViewById(R.id.value_btn);
+//        mulchTextSizeBar = (SeekBar) findViewById(R.id.mulch_size);
+//        valueTextSizeBar = (SeekBar) findViewById(R.id.value_size);
+//        touchWidthBar = (SeekBar) findViewById(R.id.touch_width);
+//        autoCleanSizeBar = (SeekBar) findViewById(R.id.auto_clean_size);
+//        roundRadiusBar = (SeekBar) findViewById(R.id.round_radius);
+//        mulchTextSizeBarBtn = (Button) findViewById(R.id.mulch_size_btn);
+//        valueTextSizeBarBtn = (Button) findViewById(R.id.value_size_btn);
+//        touchWidthBarBtn = (Button) findViewById(R.id.touch_width_btn);
+//        autoCleanSizeBarBtn = (Button) findViewById(R.id.auto_clean_size_btn);
+//        roundRadiusBarBtn = (Button) findViewById(R.id.round_radius_btn);
+//        transparentBg = (Switch) findViewById(R.id.transparent_bg);
+//        autoClean = (Switch) findViewById(R.id.auto_clean);
+//        mulchBtn.setOnClickListener(this);
+//        valueBtn.setOnClickListener(this);
+//        mulchTextSizeBarBtn.setOnClickListener(this);
+//        valueTextSizeBarBtn.setOnClickListener(this);
+//        touchWidthBarBtn.setOnClickListener(this);
+//        autoCleanSizeBarBtn.setOnClickListener(this);
+//        roundRadiusBarBtn.setOnClickListener(this);
+//        mulchTextSizeBar.setOnSeekBarChangeListener(this);
+//        valueTextSizeBar.setOnSeekBarChangeListener(this);
+//        touchWidthBar.setOnSeekBarChangeListener(this);
+//        autoCleanSizeBar.setOnSeekBarChangeListener(this);
+//        roundRadiusBar.setOnSeekBarChangeListener(this);
+//        transparentBg.setOnCheckedChangeListener(this);
+//        autoClean.setOnCheckedChangeListener(this);
+
         builder = new LScratchCardOption.Builder();
-        builder.setBackgroundColor(Color.GREEN)
+        builder.setBackgroundColor(Color.parseColor("#00E3E3"),Color.parseColor("#6FB7B7"),Color.parseColor("#84C1FF"))
+                .setBackgroundColorAngle(30)
+                .setMulchColorAngle(90)
                 .setBackgroundImg(BitmapFactory.decodeResource(res,R.mipmap.ic_background))
                 .setBackgroundImgScaleType(ImageView.ScaleType.CENTER_CROP)
                 .setRoundRadius(20)
                 .setValueImg(BitmapFactory.decodeResource(res,R.mipmap.ic_liang))
                 .setValueImgScaleType(ImageView.ScaleType.CENTER_INSIDE)
                 .setText("恭喜你获得一等奖")
-                .setTextColor(Color.RED,Color.BLUE,Color.CYAN)
-                .setMulchColor(Color.GRAY)
+                .setTextColor(Color.BLUE,Color.RED,Color.CYAN)
+                .setMulchColor(Color.BLACK,Color.WHITE,Color.GRAY,Color.WHITE,Color.BLACK)
                 .setMulchImg(BitmapFactory.decodeResource(res,R.mipmap.ic_launcher))
                 .setMulchImgScaleType(ImageView.ScaleType.CENTER_INSIDE)
-                .setMulchText("刮开图层有奖")
-                .setMulchTextColor(Color.BLACK,Color.BLUE);
+                .setMulchText("刮卡赢大奖")
+                .setMulchTextColor(Color.parseColor("#FF5809"),Color.parseColor("#B15BFF"))
+                .setMulchTextSize(50)
+                .setAutoClean(50)
+                .setAutoCleanEnable(true)
+                .setRoundRadius(60)
+                .setTouchWdth(60);
         scratchCard.setOption(new LScratchCardOption(builder));
     }
 
@@ -87,21 +114,68 @@ public class ScratchCardActivity extends AppCompatActivity implements SeekBar.On
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
-
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-
+//        switch (seekBar.getId()){
+//            case R.id.mulch_size:
+//                builder.setMulchTextSize(seekBar.getProgress());
+//                break;
+//            case R.id.value_size:
+//                builder.setTextSize(seekBar.getProgress());
+//                break;
+//            case R.id.touch_width:
+//                builder.setTouchWdth(seekBar.getProgress());
+//                break;
+//            case R.id.auto_clean_size:
+//                builder.setAutoClean(seekBar.getProgress()*1.0f/100);
+//                break;
+//            case R.id.round_radius:
+//                builder.setRoundRadius(seekBar.getProgress());
+//                break;
+//        }
+//        scratchCard.setOption(new LScratchCardOption(builder));
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+        switch (buttonView.getId()){
+            case R.id.transparent_bg:
+                builder.setTransparentBg(isChecked);
+                break;
+            case R.id.auto_clean:
+                builder.setAutoCleanEnable(isChecked);
+                break;
+        }
+        scratchCard.setOption(new LScratchCardOption(builder));
     }
 
     @Override
     public void onClick(View v) {
-
+        switch (v.getId()){
+            case R.id.mulch_btn:
+                scratchCard.setMulchText(mulchText.getText().toString());
+                break;
+            case R.id.value_btn:
+                scratchCard.setValueText(valueText.getText().toString());
+                break;
+            case R.id.mulch_size_btn:
+                builder.setMulchTextSize(mulchTextSizeBar.getProgress());
+                break;
+            case R.id.value_size_btn:
+                builder.setTextSize(valueTextSizeBar.getProgress());
+                break;
+            case R.id.touch_width_btn:
+                builder.setTouchWdth(touchWidthBar.getProgress());
+                break;
+            case R.id.auto_clean_size_btn:
+                builder.setAutoClean(autoCleanSizeBar.getProgress()*1.0f/100);
+                break;
+            case R.id.round_radius_btn:
+                builder.setRoundRadius(roundRadiusBar.getProgress());
+                break;
+        }
+        scratchCard.setOption(new LScratchCardOption(builder));
     }
 }

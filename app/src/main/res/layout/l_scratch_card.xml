@@ -8,28 +8,26 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:theme="@style/AppTheme.AppBarOverlay">
-
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:fitsSystemWindows="true"
             android:layout_height="?attr/actionBarSize"/>
     </android.support.design.widget.AppBarLayout>
-    <ScrollView
+    <mr_xiaoliang.com.github.lview_as.view.LScratchCard
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:layout_weight="1">
+        android:layout_height="match_parent"
+        android:id="@+id/scratchcard"/>
+    <ScrollView
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="@dimen/dimen_10">
-
-            <mr_xiaoliang.com.github.lview_as.view.LScratchCard
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:id="@+id/scratchcard"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -45,6 +43,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="覆盖层文本"
+                        android:text="刮开图层有奖"
                         android:id="@+id/mulch_text"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -59,13 +58,26 @@
                 android:layout_height="wrap_content"
                 android:text="覆盖文本大小"
                 android:layout_marginTop="10dp"/>
-            <SeekBar
-                android:id="@+id/mulch_size"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="50"
-                android:progress="20"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="10dp">
+                <SeekBar
+                    android:id="@+id/mulch_size"
+                    android:layout_width="0px"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:max="50"
+                    android:progress="20"
+                    android:layout_marginRight="@dimen/dimen_10"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="确定"
+                    android:id="@+id/mulch_size_btn"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,6 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="内容层文本"
+                        android:text="恭喜你获得一等奖"
                         android:id="@+id/value_text"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -94,13 +107,27 @@
                 android:layout_height="wrap_content"
                 android:text="内容文本大小"
                 android:layout_marginTop="10dp"/>
-            <SeekBar
-                android:id="@+id/value_size"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="50"
-                android:progress="20"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal"
+                android:layout_marginBottom="10dp"
+                android:gravity="center">
+                <SeekBar
+                    android:id="@+id/value_size"
+                    android:layout_width="0px"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:max="50"
+                    android:progress="20"
+                    android:layout_marginRight="@dimen/dimen_10"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="确定"
+                    android:id="@+id/value_size_btn"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -124,13 +151,26 @@
                 android:layout_height="wrap_content"
                 android:text="手指宽度"
                 android:layout_marginTop="10dp"/>
-            <SeekBar
-                android:id="@+id/touch_width"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="50"
-                android:progress="30"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="10dp">
+                <SeekBar
+                    android:id="@+id/touch_width"
+                    android:layout_width="0px"
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/dimen_10"
+                    android:layout_height="wrap_content"
+                    android:max="50"
+                    android:progress="30"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="确定"
+                    android:id="@+id/touch_width_btn"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -154,25 +194,51 @@
                 android:layout_height="wrap_content"
                 android:text="自动清理界限"
                 android:layout_marginTop="10dp"/>
-            <SeekBar
-                android:id="@+id/auto_clean_size"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="100"
-                android:progress="100"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="10dp">
+                <SeekBar
+                    android:id="@+id/auto_clean_size"
+                    android:layout_width="0px"
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/dimen_10"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="100"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="确定"
+                    android:id="@+id/auto_clean_size_btn"/>
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="圆角半径"
                 android:layout_marginTop="10dp"/>
-            <SeekBar
-                android:id="@+id/round_radius"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:max="100"
-                android:progress="10"
-                android:layout_marginBottom="10dp"/>
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/dimen_10"
+                android:gravity="center">
+                <SeekBar
+                    android:id="@+id/round_radius"
+                    android:layout_width="0px"
+                    android:layout_weight="1"
+                    android:layout_marginRight="@dimen/dimen_10"
+                    android:layout_height="wrap_content"
+                    android:max="100"
+                    android:progress="10"/>
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/round_radius_btn"
+                    android:text="确定"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

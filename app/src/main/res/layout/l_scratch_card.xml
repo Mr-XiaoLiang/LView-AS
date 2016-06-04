@@ -16,10 +16,9 @@
     </android.support.design.widget.AppBarLayout>
     <mr_xiaoliang.com.github.lview_as.view.LScratchCard
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="300dp"
         android:id="@+id/scratchcard"/>
     <ScrollView
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

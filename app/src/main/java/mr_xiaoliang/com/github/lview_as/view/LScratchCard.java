@@ -94,7 +94,7 @@ public class LScratchCard extends View {
         if(option == null||width<1||height<1)
             return;
         if(noMulch){//如果清除遮罩，那么直接绘制结果
-            canvas.drawRect(0,0,width,height,valuePaint);
+            canvas.drawRoundRect(0,0,width,height,option.roundRadius,option.roundRadius,valuePaint);
             return;
         }
         if(option.transparentBg){
@@ -550,6 +550,7 @@ public class LScratchCard extends View {
     public void setMulchText(String mulchText) {
         this.mulchText = mulchText;
         initMuich();
+        invalidate();
     }
 
     /**
@@ -559,6 +560,7 @@ public class LScratchCard extends View {
     public void setValueText(String valueText) {
         this.valueText = valueText;
         initValue();
+        invalidate();
     }
 
     /**
@@ -568,6 +570,7 @@ public class LScratchCard extends View {
     public void setOption(LScratchCardOption option) {
         this.option = option;
         init();
+        invalidate();
     }
 
     /**

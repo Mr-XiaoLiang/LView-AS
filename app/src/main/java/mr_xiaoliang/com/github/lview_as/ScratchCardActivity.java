@@ -42,36 +42,36 @@ public class ScratchCardActivity extends AppCompatActivity implements SeekBar.On
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         scratchCard = (LScratchCard) findViewById(R.id.scratchcard);
-//        mulchText = (TextView) findViewById(R.id.mulch_text);
-//        valueText = (TextView) findViewById(R.id.value_text);
-//        mulchBtn = (Button) findViewById(R.id.mulch_btn);
-//        valueBtn = (Button) findViewById(R.id.value_btn);
-//        mulchTextSizeBar = (SeekBar) findViewById(R.id.mulch_size);
-//        valueTextSizeBar = (SeekBar) findViewById(R.id.value_size);
-//        touchWidthBar = (SeekBar) findViewById(R.id.touch_width);
-//        autoCleanSizeBar = (SeekBar) findViewById(R.id.auto_clean_size);
-//        roundRadiusBar = (SeekBar) findViewById(R.id.round_radius);
-//        mulchTextSizeBarBtn = (Button) findViewById(R.id.mulch_size_btn);
-//        valueTextSizeBarBtn = (Button) findViewById(R.id.value_size_btn);
-//        touchWidthBarBtn = (Button) findViewById(R.id.touch_width_btn);
-//        autoCleanSizeBarBtn = (Button) findViewById(R.id.auto_clean_size_btn);
-//        roundRadiusBarBtn = (Button) findViewById(R.id.round_radius_btn);
-//        transparentBg = (Switch) findViewById(R.id.transparent_bg);
-//        autoClean = (Switch) findViewById(R.id.auto_clean);
-//        mulchBtn.setOnClickListener(this);
-//        valueBtn.setOnClickListener(this);
-//        mulchTextSizeBarBtn.setOnClickListener(this);
-//        valueTextSizeBarBtn.setOnClickListener(this);
-//        touchWidthBarBtn.setOnClickListener(this);
-//        autoCleanSizeBarBtn.setOnClickListener(this);
-//        roundRadiusBarBtn.setOnClickListener(this);
-//        mulchTextSizeBar.setOnSeekBarChangeListener(this);
-//        valueTextSizeBar.setOnSeekBarChangeListener(this);
-//        touchWidthBar.setOnSeekBarChangeListener(this);
-//        autoCleanSizeBar.setOnSeekBarChangeListener(this);
-//        roundRadiusBar.setOnSeekBarChangeListener(this);
-//        transparentBg.setOnCheckedChangeListener(this);
-//        autoClean.setOnCheckedChangeListener(this);
+        mulchText = (TextView) findViewById(R.id.mulch_text);
+        valueText = (TextView) findViewById(R.id.value_text);
+        mulchBtn = (Button) findViewById(R.id.mulch_btn);
+        valueBtn = (Button) findViewById(R.id.value_btn);
+        mulchTextSizeBar = (SeekBar) findViewById(R.id.mulch_size);
+        valueTextSizeBar = (SeekBar) findViewById(R.id.value_size);
+        touchWidthBar = (SeekBar) findViewById(R.id.touch_width);
+        autoCleanSizeBar = (SeekBar) findViewById(R.id.auto_clean_size);
+        roundRadiusBar = (SeekBar) findViewById(R.id.round_radius);
+        mulchTextSizeBarBtn = (Button) findViewById(R.id.mulch_size_btn);
+        valueTextSizeBarBtn = (Button) findViewById(R.id.value_size_btn);
+        touchWidthBarBtn = (Button) findViewById(R.id.touch_width_btn);
+        autoCleanSizeBarBtn = (Button) findViewById(R.id.auto_clean_size_btn);
+        roundRadiusBarBtn = (Button) findViewById(R.id.round_radius_btn);
+        transparentBg = (Switch) findViewById(R.id.transparent_bg);
+        autoClean = (Switch) findViewById(R.id.auto_clean);
+        mulchBtn.setOnClickListener(this);
+        valueBtn.setOnClickListener(this);
+        mulchTextSizeBarBtn.setOnClickListener(this);
+        valueTextSizeBarBtn.setOnClickListener(this);
+        touchWidthBarBtn.setOnClickListener(this);
+        autoCleanSizeBarBtn.setOnClickListener(this);
+        roundRadiusBarBtn.setOnClickListener(this);
+        mulchTextSizeBar.setOnSeekBarChangeListener(this);
+        valueTextSizeBar.setOnSeekBarChangeListener(this);
+        touchWidthBar.setOnSeekBarChangeListener(this);
+        autoCleanSizeBar.setOnSeekBarChangeListener(this);
+        roundRadiusBar.setOnSeekBarChangeListener(this);
+        transparentBg.setOnCheckedChangeListener(this);
+        autoClean.setOnCheckedChangeListener(this);
 
         builder = new LScratchCardOption.Builder();
         builder.setBackgroundColor(Color.parseColor("#00E3E3"),Color.parseColor("#6FB7B7"),Color.parseColor("#84C1FF"))
@@ -82,18 +82,16 @@ public class ScratchCardActivity extends AppCompatActivity implements SeekBar.On
                 .setRoundRadius(20)
                 .setValueImg(BitmapFactory.decodeResource(res,R.mipmap.ic_liang))
                 .setValueImgScaleType(ImageView.ScaleType.CENTER_INSIDE)
-                .setText("恭喜你获得一等奖")
+                .setText(valueText.getText().toString())
                 .setTextColor(Color.BLUE,Color.RED,Color.CYAN)
                 .setMulchColor(Color.BLACK,Color.WHITE,Color.GRAY,Color.WHITE,Color.BLACK)
                 .setMulchImg(BitmapFactory.decodeResource(res,R.mipmap.ic_launcher))
                 .setMulchImgScaleType(ImageView.ScaleType.CENTER_INSIDE)
-                .setMulchText("刮卡赢大奖")
+                .setMulchText(mulchText.getText().toString())
                 .setMulchTextColor(Color.parseColor("#FF5809"),Color.parseColor("#B15BFF"))
-                .setMulchTextSize(50)
-                .setAutoClean(50)
-                .setAutoCleanEnable(true)
-                .setRoundRadius(60)
-                .setTouchWdth(60);
+                .setMulchTextSize(mulchTextSizeBar.getProgress()*3)
+                .setRoundRadius(roundRadiusBar.getProgress()*3)
+                .setTouchWdth(touchWidthBar.getProgress()*3);
         scratchCard.setOption(new LScratchCardOption(builder));
     }
 
@@ -155,19 +153,19 @@ public class ScratchCardActivity extends AppCompatActivity implements SeekBar.On
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.mulch_btn:
-                scratchCard.setMulchText(mulchText.getText().toString());
+                builder.setMulchText(mulchText.getText().toString());
                 break;
             case R.id.value_btn:
-                scratchCard.setValueText(valueText.getText().toString());
+                builder.setText(valueText.getText().toString());
                 break;
             case R.id.mulch_size_btn:
-                builder.setMulchTextSize(mulchTextSizeBar.getProgress());
+                builder.setMulchTextSize(mulchTextSizeBar.getProgress()*3);
                 break;
             case R.id.value_size_btn:
-                builder.setTextSize(valueTextSizeBar.getProgress());
+                builder.setTextSize(valueTextSizeBar.getProgress()*3);
                 break;
             case R.id.touch_width_btn:
-                builder.setTouchWdth(touchWidthBar.getProgress());
+                builder.setTouchWdth(touchWidthBar.getProgress()*3);
                 break;
             case R.id.auto_clean_size_btn:
                 builder.setAutoClean(autoCleanSizeBar.getProgress()*1.0f/100);

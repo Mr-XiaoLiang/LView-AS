@@ -221,6 +221,9 @@ public class ViewTest extends Activity implements LScrollingTextView.LScrollingT
 				lLineChartView.setBeans(beans);
 				lLineChartView2.setBeans(beans2);
 				break;
+			case 34:
+				setContentView(R.layout.heart);
+				break;
 		}
 	}
 	private class MyHandler extends Handler{

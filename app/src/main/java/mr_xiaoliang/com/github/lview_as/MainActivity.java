@@ -3,6 +3,7 @@ package mr_xiaoliang.com.github.lview_as;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,7 +22,7 @@ import mr_xiaoliang.com.github.lview_as.util.ShortcutUtil;
 import mr_xiaoliang.com.github.lview_as.view.LCalendarView;
 import mr_xiaoliang.com.github.lview_as.view.LClockView;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener,MainAdapter.OnItemClickListener{
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, MainAdapter.OnItemClickListener {
 
     private ClipData myClip;
     private ClipboardManager myClipboard;
@@ -29,12 +30,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton fab;
     private String[] names = {
             "日历选择-日期没有限制&全向拖动", "日历选择-日期有限制&单向", "选项卡切换-三角形", "选项卡切换-线形", "时间选择-小时",
-            "时间选择-分钟","加载等待动画", "饼图", "进度图", "雷达图",
+            "时间选择-分钟", "加载等待动画", "饼图", "进度图", "雷达图",
             "圆形图片", "滑动按钮", "温度计", "进度条按钮", "页面下方小点",
-            "tab小点", "日期滚轮", "时间滚轮", "全套滚轮","tab条形",
-            "倒计时View","商品列表","支付宝咻一咻","系统自带的抽屉用法演示","现在较流行的抽屉样式",
-            "带涟漪的Layout","渐变的View","通讯录","添加快捷方式","删除快捷方式",
-            "水滴加载动画","跑马灯","折线图","刮刮卡","转动的心"};
+            "tab小点", "日期滚轮", "时间滚轮", "全套滚轮", "tab条形",
+            "倒计时View", "商品列表", "支付宝咻一咻", "系统自带的抽屉用法演示", "现在较流行的抽屉样式",
+            "带涟漪的Layout", "渐变的View", "通讯录", "添加快捷方式", "删除快捷方式",
+            "水滴加载动画", "跑马灯", "折线图", "刮刮卡", "转动的心"};
     private RecyclerView recyclerView;
     private MainAdapter adapter;
     private DialogUtil dialogUtil;
@@ -57,8 +58,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         dialogUtil = new DialogUtil();
         calendar = Calendar.getInstance();
         shortcutUtil = new ShortcutUtil(this);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
     }
-
 
 
     @Override
@@ -163,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case 28:
-                shortcutUtil.addShortcut(getString(R.string.app_name), size, R.mipmap.ic_launcher,MainActivity.class);
+                shortcutUtil.addShortcut(getString(R.string.app_name), size, R.mipmap.ic_launcher, MainActivity.class);
                 t("添加成功");
                 size++;
                 break;
@@ -176,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 size++;
                 break;
             case 33:
-                startActivity(new Intent(this,ScratchCardActivity.class));
+                startActivity(new Intent(this, ScratchCardActivity.class));
                 break;
             default:
                 intent = new Intent(this, ViewTest.class);
@@ -185,7 +187,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
         }
     }
-    private void t(String s){
+
+    private void t(String s) {
         Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
     }
 }

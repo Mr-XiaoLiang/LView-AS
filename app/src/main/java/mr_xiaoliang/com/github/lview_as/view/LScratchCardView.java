@@ -31,7 +31,7 @@ import mr_xiaoliang.com.github.lview_as.option.LScratchCardOption;
  * 由于View本身的功能偏向，
  * 所以本View没有对padding进行处理
  */
-public class LScratchCard extends View {
+public class LScratchCardView extends View {
     //参数类
     private LScratchCardOption option;
     //覆盖的画笔
@@ -511,13 +511,13 @@ public class LScratchCard extends View {
         }
     };
 
-    public LScratchCard(Context context) {
+    public LScratchCardView(Context context) {
         this(context,null);
     }
-    public LScratchCard(Context context, AttributeSet attrs) {
+    public LScratchCardView(Context context, AttributeSet attrs) {
         this(context, attrs,0);
     }
-    public LScratchCard(Context context, AttributeSet attrs, int defStyleAttr) {
+    public LScratchCardView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mulchPaint = new Paint();
         mulchPaint.setAntiAlias(true);//边缘平滑

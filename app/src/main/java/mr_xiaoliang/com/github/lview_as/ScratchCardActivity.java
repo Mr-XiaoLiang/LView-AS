@@ -16,7 +16,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import mr_xiaoliang.com.github.lview_as.option.LScratchCardOption;
-import mr_xiaoliang.com.github.lview_as.view.LScratchCard;
+import mr_xiaoliang.com.github.lview_as.view.LScratchCardView;
 
 /**
  * 刮刮卡测试页面
@@ -24,7 +24,7 @@ import mr_xiaoliang.com.github.lview_as.view.LScratchCard;
 public class ScratchCardActivity extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener,Switch.OnCheckedChangeListener,View.OnClickListener {
 
     private LScratchCardOption.Builder builder;
-    private LScratchCard scratchCard;
+    private LScratchCardView scratchCard;
     private TextView mulchText,valueText;
     private Button mulchBtn,valueBtn,mulchTextSizeBarBtn,valueTextSizeBarBtn,touchWidthBarBtn,autoCleanSizeBarBtn,roundRadiusBarBtn;
     private SeekBar mulchTextSizeBar,valueTextSizeBar,touchWidthBar,autoCleanSizeBar,roundRadiusBar;
@@ -41,7 +41,7 @@ public class ScratchCardActivity extends AppCompatActivity implements SeekBar.On
         toolbar.setBackgroundColor(res.getColor(R.color.colorPrimary));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        scratchCard = (LScratchCard) findViewById(R.id.scratchcard);
+        scratchCard = (LScratchCardView) findViewById(R.id.scratchcard);
         mulchText = (TextView) findViewById(R.id.mulch_text);
         valueText = (TextView) findViewById(R.id.value_text);
         mulchBtn = (Button) findViewById(R.id.mulch_btn);

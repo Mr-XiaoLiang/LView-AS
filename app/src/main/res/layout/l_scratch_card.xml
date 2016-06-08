@@ -14,7 +14,7 @@
             android:fitsSystemWindows="true"
             android:layout_height="?attr/actionBarSize"/>
     </android.support.design.widget.AppBarLayout>
-    <mr_xiaoliang.com.github.lview_as.view.LScratchCard
+    <mr_xiaoliang.com.github.lview_as.view.LScratchCardView
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:id="@+id/scratchcard"/>

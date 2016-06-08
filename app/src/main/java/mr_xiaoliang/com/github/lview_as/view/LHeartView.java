@@ -4,21 +4,22 @@ import android.animation.TypeEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.BlurMaskFilter;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.MaskFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PathMeasure;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.animation.DecelerateInterpolator;
 
 /**
  * Created by Administrator on 2016/6/4.
  * 心形的View
+ * 写一半懒得写了
  */
-public class LHeartView extends View {
+public class LHeartView extends SurfaceView implements SurfaceHolder.Callback {
 
     private Path heartPath;
     private Path path;
@@ -32,14 +33,9 @@ public class LHeartView extends View {
     private int thisProgress = 0;
     private boolean autoAnim = true;
     private Paint pathPaint,pointPaint;
-
-    @Override
-    protected void onDraw(Canvas canvas) {
-        canvas.drawPath(heartPath,pathPaint);
-//        canvas.drawPath(path,pathPaint);
-//        canvas.drawCircle(startLocation[0],startLocation[1],20,pointPaint);
-//        canvas.drawCircle(endLocation[0],endLocation[1],20,pointPaint);
-    }
+    private SurfaceHolder holder;
+    private boolean isRun = true;
+    private Thread thread;
 
     private void init(){
         START_LENGTH = new float[]{border*0.5f+offetX,border+offsetY};
@@ -73,13 +69,16 @@ public class LHeartView extends View {
         BlurMaskFilter bmf = new BlurMaskFilter(50, BlurMaskFilter.Blur.SOLID);
         pathPaint.setMaskFilter(bmf);
         pathPaint.setColor(Color.RED);
+        pathPaint.setStrokeWidth(20);
         pointPaint = new Paint();
         pointPaint.setStyle(Paint.Style.FILL);
         pointPaint.setAntiAlias(true);
         pointPaint.setDither(true);
         pointPaint.setMaskFilter(bmf);
         pointPaint.setColor(Color.RED);
-        startStretchPathAnim(duration);
+        if(autoAnim){
+//            startStretchPathAnim(duration);
+        }
     }
 
     @Override
@@ -123,7 +122,7 @@ public class LHeartView extends View {
     public void startStretchPathAnim(long duration) {
         endLocation = START_LENGTH;
         // 0 － getLength()
-        ValueAnimator valueAnimator = ValueAnimator.ofObject(new MoveEvaluator(),0, pathMeasure.getLength());
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, pathMeasure.getLength());
         valueAnimator.setDuration(duration);
         // 减速插值器
         valueAnimator.setInterpolator(new DecelerateInterpolator());
@@ -146,7 +145,7 @@ public class LHeartView extends View {
     public void startShortenPathAnim(long duration) {
         startLocation = START_LENGTH;
         // 0 － getLength()
-        ValueAnimator valueAnimator = ValueAnimator.ofObject(new MoveEvaluator(),0, pathMeasure.getLength());
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, pathMeasure.getLength());
         valueAnimator.setDuration(duration);
         // 减速插值器
         valueAnimator.setInterpolator(new DecelerateInterpolator());
@@ -189,22 +188,35 @@ public class LHeartView extends View {
         valueAnimator.start();
     }
 
+    @Override
+    public void surfaceCreated(SurfaceHolder holder) {
+
+    }
+
+    @Override
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+
+    }
+
+    @Override
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        isRun = false;
+    }
+
     /**
      * 爱心的移动算法
      */
-    private class MoveEvaluator implements TypeEvaluator{
+    private class MoveEvaluator implements TypeEvaluator<Float>{
         float nowV = 0;
         @Override
-        public Object evaluate(float fraction, Object startValue, Object endValue) {
-            float start = (float) startValue;
-            float end = (float) endValue;
-            if(start>end){
+        public Float evaluate(float fraction, Float startValue, Float endValue) {
+            if(startValue>endValue){
                 throw new RuntimeException("can`t startValue > endValue");
             }
-            float v = (end-start)/duration;
+            float v = (endValue-startValue)/duration;
             float g = Math.abs(v*2/duration);//计算加速度
             g = fraction>0.5?-g:g;
-            return (nowV+g*duration)*duration*0.5;
+            return (nowV+g*duration)*duration*0.5f;
         }
     }
 }

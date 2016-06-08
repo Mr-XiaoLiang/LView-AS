@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.design.widget.Snackbar;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -221,7 +222,7 @@ public class ViewTest extends Activity implements LScrollingTextView.LScrollingT
 				lLineChartView.setBeans(beans);
 				lLineChartView2.setBeans(beans2);
 				break;
-			case 34:
+			case 27:
 				setContentView(R.layout.heart);
 				break;
 		}

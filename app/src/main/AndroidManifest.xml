@@ -12,7 +12,7 @@
     <application
         android:name=".option.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher2"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -32,7 +32,7 @@
         <activity android:name=".CountDownListActivity" />
         <activity android:name=".ShopListTest" />
         <activity android:name=".PhoneBook" />
-        <activity android:name=".ScratchCardActivity"></activity>
+        <activity android:name=".ScratchCardActivity"/>
     </application>
 
 </manifest>

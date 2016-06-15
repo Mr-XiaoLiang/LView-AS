@@ -186,6 +186,7 @@ public class LHeartView extends SurfaceView implements SurfaceHolder.Callback {
             }
         });
         valueAnimator.start();
+
     }
 
     @Override

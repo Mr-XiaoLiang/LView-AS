@@ -3,6 +3,7 @@ package mr_xiaoliang.com.github.lview_as;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.Display;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,6 +123,7 @@ public class ShopListTest extends Activity {
 		public long getItemId(int position) {
 			return position;
 		}
+
 	}
 
 	private void initData() {

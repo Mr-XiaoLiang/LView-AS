@@ -4,10 +4,16 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import mr_xiaoliang.com.github.lview_as.option.LLockViewOption;
@@ -29,6 +35,7 @@ public class LLockView extends ImageView {
     private ArrayList<Integer> password;
     private int[][] map;
     private Path path;
+    private int lastX,lasyY;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -80,7 +87,7 @@ public class LLockView extends ImageView {
      * @param onPress 是否被按下状态
      */
     protected void onDrowSquare(Canvas canvas,int width,int height,int row,int col,boolean onPress){
-        Path p = new Path();;
+        Path p = new Path();
         switch (o.shapeType){
             case Circle:
                 p.moveTo(width/2,0);
@@ -114,6 +121,7 @@ public class LLockView extends ImageView {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         init();
+
     }
 
     /**
@@ -213,6 +221,7 @@ public class LLockView extends ImageView {
         if(pathPaint!=null){
             pathPaint.setStrokeWidth(o.lineWidth);
         }
+        map = new int[o.rowSize][o.colSize];
     }
 
     public LLockView(Context context) {
@@ -277,6 +286,7 @@ public class LLockView extends ImageView {
     public void setO(LLockViewOption o) {
         this.o = o;
         initOption();
+        invalidate();
     }
 
     /**

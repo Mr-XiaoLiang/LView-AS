@@ -87,6 +87,7 @@ public class LWheelDialog extends Dialog implements LWheelView.LWheelViewListene
 		esc.setOnClickListener(this);
 		enter.setOnClickListener(this);
 		initWheel();
+		Toast.makeText(getContext(),"此demo仅仅是为了演示滚轮，非专门的日期选择控件",Toast.LENGTH_SHORT).show();
 	}
 
 	private void initWheel() {

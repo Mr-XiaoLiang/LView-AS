@@ -199,8 +199,16 @@ public class LLoadView2 extends View {
 
     private void drawDrop(Canvas canvas){
         if(dropPoint!=null&&dropPoint.size()>0){
+            Path dropPath;
             for(MyPoint p : dropPoint){
-                canvas.drawCircle(p.X,p.Y,p.R,waterPaint);
+//                canvas.drawCircle(p.X,p.Y,p.R,waterPaint);
+                dropPath = new Path();
+                dropPath.moveTo(p.X,p.Y-p.R);//移动到水滴的上顶点
+                dropPath.cubicTo(p.X,p.Y-p.R*2/3,p.X+p.R*2/3,p.Y-p.R/6,p.X+p.R*2/3,p.Y+p.R/3);//右侧顶点
+                dropPath.cubicTo(p.X+p.R*2/3,p.Y+p.R*2/3,p.X+p.R/3,p.Y+p.R,p.X,p.R+p.Y);//底部顶点
+                dropPath.cubicTo(p.X-p.R/3,p.Y+p.R,p.X-p.R*2/3,p.Y+p.R*2/3,p.X-p.R*2/3,p.Y+p.R/3);//左侧顶点
+                dropPath.cubicTo(p.X-p.R*2/3,p.Y-p.R/6,p.X,p.Y-p.R*2/3,p.X,p.Y-p.R);//连接回上顶点
+                canvas.drawPath(dropPath,waterPaint);
             }
         }
     }
@@ -265,7 +273,7 @@ public class LLoadView2 extends View {
                 w = -Math.abs(w);
                 crest = true;
             }
-            int lX = wavePoint.get(wavePoint.size()-1).X;
+//            int lX = wavePoint.get(wavePoint.size()-1).X;
             xz = (int) (x-width*0.2);
 //            yz = (int) ((lY-y-w)*0.3+y+w);
             yz = y+w;

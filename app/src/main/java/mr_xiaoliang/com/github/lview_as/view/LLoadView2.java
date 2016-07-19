@@ -230,7 +230,6 @@ public class LLoadView2 extends View {
                     path.cubicTo(x1, y1, x2, y2, x, y);
                 }else{
                     path.moveTo(x,y);
-
                 }
 //                path.quadTo(p.Xz,getHeight()-p.Yz,p.X,getHeight()-p.Y-YOS);
             }

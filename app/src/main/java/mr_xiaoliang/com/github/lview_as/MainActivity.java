@@ -35,7 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             "tab小点", "日期滚轮", "时间滚轮", "全套滚轮", "tab条形",
             "倒计时View", "商品列表", "支付宝咻一咻", "系统自带的抽屉用法演示", "现在较流行的抽屉样式",
             "带涟漪的Layout", "渐变的View", "通讯录", "添加快捷方式", "删除快捷方式",
-            "水滴加载动画", "跑马灯", "折线图", "刮刮卡", "转动的心"};
+            "水滴加载动画", "跑马灯", "折线图", "刮刮卡", "转动的心",
+            "文字跳跳加载动画1","文字跳跳加载动画2"};
     private RecyclerView recyclerView;
     private MainAdapter adapter;
     private DialogUtil dialogUtil;
@@ -177,6 +178,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case 33:
                 startActivity(new Intent(this, ScratchCardActivity.class));
+                break;
+            case 35:
+                dialogUtil.getLoadDialog3(this,0);
+                break;
+            case 36:
+                dialogUtil.getLoadDialog3(this,1);
                 break;
             default:
                 intent = new Intent(this, ViewTest.class);

@@ -31,7 +31,7 @@ public class Load3Dialog extends Dialog {
 		load3 = (LLoadView3) findViewById(R.id.load3);
 		if(o==null){
 			LLoadView3Option.Builder b = new LLoadView3Option.Builder();
-			b.setValues("文字跳一跳")
+			b.setValues("小良★◆▼")
 					.setTextSize(100)
 					.setColors(Color.RED,Color.BLUE)
 					.setShadowColors(Color.RED,Color.BLUE)

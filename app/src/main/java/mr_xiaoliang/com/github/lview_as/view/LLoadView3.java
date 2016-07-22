@@ -57,7 +57,7 @@ public class LLoadView3 extends TextView {
         super.onDraw(canvas);
         if(option!=null&&str!=null&&str.length()>0){
             if(option.showType == LLoadView3Option.SHOW_TYPE_ALL){
-                int length  = option.values.length();
+                int length  = str.length();
                 for(int i = 0;i<length;i++){//绘制影子，分开的原因是为了防止绘制的时候，第二个的影子覆盖住第一个文字
                     drawShadow(textX[i],i,canvas);
                 }
@@ -78,8 +78,8 @@ public class LLoadView3 extends TextView {
                     if(index<0){
                         sequence = !sequence;
                         index=1;
-                    }else if(index>=option.values.length()){
-                        index=option.values.length()-1;
+                    }else if(index>=str.length()){
+                        index=str.length()-1;
                         sequence = !sequence;
                     }
                 }
@@ -105,7 +105,7 @@ public class LLoadView3 extends TextView {
     private int getTextX(int i){
         switch (option.showType){
             case LLoadView3Option.SHOW_TYPE_ALL:
-                int w = (getWidth()-textSize)/option.values.length();
+                int w = (getWidth()-textSize)/str.length();
                 return w*i+textSize;
             case LLoadView3Option.SHOW_TYPE_ONCE:
                 return getWidth()/2;
@@ -243,7 +243,7 @@ public class LLoadView3 extends TextView {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (option!=null && !isInit&&str!=null&&str.length()>0){
-            int length = option.values.length();
+            int length = str.length();
             maxY = new int[length];
             everySizes = new int[length];
             textArray = new String[length];
@@ -279,7 +279,7 @@ public class LLoadView3 extends TextView {
     }
     private int measureWidth(int measureSpec) {
         /*
-        option.values.length()+1
+        str.length()+1
         因为影子在字体跳动时，影子会有扩散效果，所以需要留出扩散的空间
          */
         int result;
@@ -287,18 +287,18 @@ public class LLoadView3 extends TextView {
         int specSize = MeasureSpec.getSize(measureSpec);
         if (specMode == MeasureSpec.EXACTLY) {
             if(option.showType==LLoadView3Option.SHOW_TYPE_ALL)
-                textSize = Math.min(textSize,(specSize-getPaddingRight()-getPaddingLeft())/(option.values.length()+1));
+                textSize = Math.min(textSize,(specSize-getPaddingRight()-getPaddingLeft())/(str.length()+1));
             else
                 textSize = Math.min(textSize,(specSize-getPaddingRight()-getPaddingLeft())/2);
             result = specSize;
         } else {
             if(option.showType==LLoadView3Option.SHOW_TYPE_ALL)
-                result = textSize*(option.values.length()+1)+getPaddingLeft()+getPaddingRight();
+                result = textSize*(str.length()+1)+getPaddingLeft()+getPaddingRight();
             else
                 result = textSize+getPaddingLeft()+getPaddingRight();
             if (specMode == MeasureSpec.AT_MOST && result>specSize) {
                 result = specSize;
-                textSize = Math.min(textSize,(specSize-getPaddingRight()-getPaddingLeft())/(option.values.length()+1));
+                textSize = Math.min(textSize,(specSize-getPaddingRight()-getPaddingLeft())/(str.length()+1));
             }
         }
         return result;

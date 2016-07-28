@@ -91,9 +91,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         });
                 break;
             case 1:
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.setTime(calendar.getTime());
+                calendar1.set(Calendar.DAY_OF_MONTH,calendar.get(Calendar.DAY_OF_MONTH)-7);
                 dialogUtil.getCalendarDialog(this, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.DAY_OF_MONTH), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.YEAR),
-                        calendar.get(Calendar.DAY_OF_MONTH), LCalendarView.SlideType.Horizontal,
+                        calendar.get(Calendar.DAY_OF_MONTH), calendar1.get(Calendar.MONTH) + 1, calendar1.get(Calendar.YEAR),
+                        calendar1.get(Calendar.DAY_OF_MONTH), LCalendarView.SlideType.Horizontal,
                         new CalendarDialog.CalendarDialogListener() {
                             @Override
                             public void calendarDialogListener(int year, int month, int day) {

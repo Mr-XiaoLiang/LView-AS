@@ -18,6 +18,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import mr_xiaoliang.com.github.lview_as.R;
 
@@ -178,16 +179,39 @@ public class LClockView extends View {
 	 * 选中文字画笔
 	 */
 	private Paint selectedSmallTextPaint;
-
+	/**
+	 * 表盘的图片
+	 */
+	private Bitmap roundBitmap;
+	/**
+	 * 文字坐标集合
+	 */
+	private float[][] textScale;
+	/**
+	 * 回调函数
+	 */
+	private ClockViewListener lis;
+	/**
+	 * 小刻度列表
+	 */
+	private float[][] smallScale;
+	/**
+	 * 大刻度列表
+	 */
+	private float[][] bigScale;
+	/**
+	 * 标准字体高度偏移量
+	 */
+	private float textY;
+	/**
+	 * 小号字体高度偏移量
+	 */
+	private float smallTextY;
 	/*-------------------------变量声明结束-------------------------------*/
 	/*-------------------------回调函数声明开始-------------------------------*/
 	public interface ClockViewListener {
 		public void onClockChange(int t);
 	}
-	/**
-	 * 回调函数
-	 */
-	private ClockViewListener lis;
 	/*-------------------------回调函数声明开始-------------------------------*/
 	/*-------------------------构造方法开始-------------------------------*/
 	public LClockView(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -199,7 +223,7 @@ public class LClockView extends View {
 		hoursItems = new int[24];
 		minutesItems = new int[60];
 		borderColor = Color.GRAY;
-		dialColor = Color.WHITE;
+		dialColor = Color.rgb(230,230,230);
 		backgroundColor = Color.TRANSPARENT;
 		textColor = Color.BLACK;
 		pointerColor = Color.RED;
@@ -270,8 +294,8 @@ public class LClockView extends View {
 	/*-------------------------构造方法结束-------------------------------*/
 
 	@Override
-	protected void onDraw(Canvas canvas) {
-		super.onDraw(canvas);
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		super.onLayout(changed, left, top, right, bottom);
 		height = getHeight();
 		width = getWidth();
 		if (width > height) {
@@ -289,6 +313,34 @@ public class LClockView extends View {
 			selectedTextPaint.setTextSize(textSize);
 			selectedSmallTextPaint.setTextSize(textSize / 2);
 		}
+		if(dialImage > 0){
+			roundBitmap = getCroppedRoundBitmap();
+		}
+		smallScale = new float[60][4];
+		bigScale = new float[12][4];
+		for (int i = 0; i < 60; i++) {
+			smallScale[i] = getSmallScale(i);
+			if (i % 5 == 0) {
+				bigScale[i/5] = getBigScale(i);
+			}
+		}
+		FontMetrics fm = textPaint.getFontMetrics();
+		textY = -fm.descent + (fm.descent - fm.ascent) / 2;
+		FontMetrics fm2 = smallTextPaint.getFontMetrics();
+		smallTextY = -fm2.descent + (fm2.descent - fm2.ascent) / 2;
+		if (type == TYPE_HOURS) {
+			textScale = new float[hoursItems.length][2];
+		}else{
+			textScale = new float[minutesItems.length][2];
+		}
+		for (int i = 0; i < textScale.length; i++) {
+			textScale[i] = getTextLocation(i);
+		}
+	}
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		super.onDraw(canvas);
 		/**
 		 * 画视图背景
 		 */
@@ -301,85 +353,75 @@ public class LClockView extends View {
 		 * 画背景图
 		 */
 		if (dialImage > 0) {
-			Bitmap roundBitmap = getCroppedRoundBitmap();
 			canvas.drawBitmap(roundBitmap, width / 2 - radius, height / 2
 					- radius, null);
 		}
 
-		float[] scale;
 		for (int i = 0; i < 60; i++) {
 			/**
 			 * 画小刻度
 			 */
-			scale = getSmallScale(i);
-			canvas.drawLine(scale[0], scale[1], scale[2], scale[3],
+			canvas.drawLine(smallScale[i][0], smallScale[i][1], smallScale[i][2], smallScale[i][3],
 					scaleSmallPaint);
 			if (i % 5 == 0) {
 				/**
 				 * 画大刻度
 				 */
-				scale = getBigScale(i);
-				canvas.drawLine(scale[0], scale[1], scale[2], scale[3],
+				canvas.drawLine(bigScale[i/5][0], bigScale[i/5][1], bigScale[i/5][2], bigScale[i/5][3],
 						scaleBigPaint);
 			}
 		}
 		/**
 		 * 画文字
 		 */
-		FontMetrics fm = textPaint.getFontMetrics();
-		float textY = -fm.descent + (fm.descent - fm.ascent) / 2;
 		if (type == TYPE_HOURS) {
-			FontMetrics fm2 = smallTextPaint.getFontMetrics();
-			float textY2 = -fm2.descent + (fm2.descent - fm2.ascent) / 2;
 			for (int i = 0; i < hoursItems.length; i++) {
-				scale = getTextLocation(i);
 				if (i < 12) {
 					if (selected == i) {
-						canvas.drawCircle(scale[0], scale[1], textSize * 0.7f,
+						canvas.drawCircle(textScale[i][0], textScale[i][1], textSize * 0.7f,
 								selectedPaint);
-						canvas.drawText(i + "", scale[0], scale[1] + textY,
+						canvas.drawText(i + "", textScale[i][0], textScale[i][1] + textY,
 								selectedTextPaint);
 					}
 					if (hoursItems[i] >= 0) {
-						canvas.drawText(i + "", scale[0], scale[1] + textY,
+						canvas.drawText(i + "", textScale[i][0], textScale[i][1] + textY,
 								textPaint);
 					} else {
-						canvas.drawText(i + "", scale[0], scale[1] + textY,
+						canvas.drawText(i + "", textScale[i][0], textScale[i][1] + textY,
 								textGaryPaint);
 					}
 				} else {
 					if (selected == i) {
-						canvas.drawCircle(scale[0], scale[1], textSize * 0.7f,
+						canvas.drawCircle(textScale[i][0], textScale[i][1], textSize * 0.7f,
 								selectedPaint);
-						canvas.drawText(i + "", scale[0], scale[1] + textY2,
+						canvas.drawText(i + "", textScale[i][0], textScale[i][1] + smallTextY,
 								selectedSmallTextPaint);
 					}
 					if (hoursItems[i] >= 0) {
-						canvas.drawText(i + "", scale[0], scale[1] + textY2,
+						canvas.drawText(i + "", textScale[i][0], textScale[i][1] + smallTextY,
 								smallTextPaint);
 					} else {
-						canvas.drawText(i + "", scale[0], scale[1] + textY2,
+						canvas.drawText(i + "", textScale[i][0], textScale[i][1] + smallTextY,
 								smallTextGaryPaint);
 					}
 				}
 			}
 		} else {
 			for (int i = 0; i < minutesItems.length; i++) {
-				scale = getTextLocation(i);
 				if (selected == i) {
-					canvas.drawCircle(scale[0], scale[1], textSize * 0.7f,
+					canvas.drawCircle(textScale[i][0], textScale[i][1], textSize * 0.7f,
 							selectedPaint);
-					canvas.drawText(i + "", scale[0], scale[1] + textY,
+					canvas.drawText(i + "", textScale[i][0], textScale[i][1] + textY,
 							selectedTextPaint);
 				}
 				if (i % 5 != 0) {
 					continue;
 				}
 				if (minutesItems[i] >= 0) {
-					canvas.drawText(i + "", scale[0], scale[1] + textY,
+					canvas.drawText(i + "", textScale[i][0], textScale[i][1] + textY,
 							textPaint);
 				} else {
-					canvas.drawText(i + "", scale[0], scale[1] + textY,
+					canvas.drawText(i + "", textScale[i][0], textScale[i][1] + textY,
 							textGaryPaint);
 				}
 			}
@@ -529,6 +571,7 @@ public class LClockView extends View {
 	 */
 	public void setType(int type) {
 		this.type = type;
+		requestLayout();
 		invalidate();
 	}
 
@@ -643,6 +686,37 @@ public class LClockView extends View {
 	public void setTextColor(int textColor) {
 		this.textColor = textColor;
 		invalidate();
+	}
+
+	/**
+	 * 设置选中项
+	 * @param selected
+     */
+	public void setSelected(int selected) {
+		if(type==TYPE_HOURS){
+			if(selected>-1&&selected<hoursItems.length&&hoursItems[selected]>0){
+				this.selected = selected;
+				realPointerAngle = selected * 30;
+				pointerAngle = selected * 30;
+				invalidate();
+			}
+		}else{
+			if(selected>-1&&selected<minutesItems.length&&minutesItems[selected]>0){
+				this.selected = selected;
+				realPointerAngle = selected * 6;
+				pointerAngle = selected * 6;
+				invalidate();
+			}
+		}
+
+	}
+
+	/**
+	 * 获取选中项
+	 * @return
+     */
+	public int getSelected() {
+		return selected;
 	}
 
 	/**
@@ -1051,7 +1125,39 @@ public class LClockView extends View {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		int result = Math.min(measureWidth(widthMeasureSpec),measureHeight(heightMeasureSpec));
+		setMeasuredDimension(result,result);
+	}
+
+	private int measureWidth(int measureSpec) {
+		int result = 0;
+		int specMode = MeasureSpec.getMode(measureSpec);
+		int specSize = MeasureSpec.getSize(measureSpec);
+		if (specMode == MeasureSpec.EXACTLY) {
+			result = specSize;
+		} else {
+			result = (int) (textSize * 30) + getPaddingLeft() + getPaddingRight();
+			if (specMode == MeasureSpec.AT_MOST) {
+				result = Math.min(result, specSize);
+			}
+		}
+		return result;
+	}
+
+	private int measureHeight(int measureSpec) {
+		int result = 0;
+		int specMode = MeasureSpec.getMode(measureSpec);
+		int specSize = MeasureSpec.getSize(measureSpec);
+
+		if (specMode == MeasureSpec.EXACTLY) {
+			result = specSize;
+		} else {
+			result = (int) (textSize * 30) + getPaddingTop() + getPaddingBottom();
+			if (specMode == MeasureSpec.AT_MOST) {
+				result = Math.min(result, specSize);
+			}
+		}
+		return result;
 	}
 	
 }

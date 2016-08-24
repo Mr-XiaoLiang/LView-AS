@@ -95,7 +95,7 @@
             android:layout_weight="1"
             android:background="@drawable/dialog_onclick"
             android:gravity="center"
-            android:padding="@dimen/dimen_5"
+            android:padding="@dimen/dimen_10"
             android:text="取消" />
 
         <TextView
@@ -105,7 +105,7 @@
             android:layout_weight="1"
             android:background="@drawable/dialog_onclick"
             android:gravity="center"
-            android:padding="@dimen/dimen_5"
+            android:padding="@dimen/dimen_10"
             android:text="确定"
             android:textColor="@color/red" />
     </LinearLayout>

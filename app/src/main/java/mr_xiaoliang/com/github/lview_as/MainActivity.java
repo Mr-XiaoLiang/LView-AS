@@ -14,8 +14,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import java.util.Calendar;
+import java.util.Date;
 
 import mr_xiaoliang.com.github.lview_as.dialog.CalendarDialog;
+import mr_xiaoliang.com.github.lview_as.dialog.ClockDialog;
 import mr_xiaoliang.com.github.lview_as.dialog.LWheelDialog;
 import mr_xiaoliang.com.github.lview_as.util.DialogUtil;
 import mr_xiaoliang.com.github.lview_as.util.ShortcutUtil;
@@ -115,14 +117,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
                 break;
             case 4:
-                intent = new Intent(this, ClockTest.class);
-                intent.putExtra("type", LClockView.TYPE_HOURS);
-                startActivity(intent);
-                break;
+//                intent = new Intent(this, ClockTest.class);
+//                intent.putExtra("type", LClockView.TYPE_HOURS);
+//                startActivity(intent);
+//                break;
             case 5:
-                intent = new Intent(this, ClockTest.class);
-                intent.putExtra("type", LClockView.TYPE_MINUTES);
-                startActivity(intent);
+//                intent = new Intent(this, ClockTest.class);
+//                intent.putExtra("type", LClockView.TYPE_MINUTES);
+//                startActivity(intent);
+                calendar.setTime(new Date());
+                dialogUtil.getClockDialog(this, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), new ClockDialog.ClockDialogListener() {
+                    @Override
+                    public void onAffirmClock(int hour, int minute) {
+                        t(hour+":"+minute);
+                    }
+                });
                 break;
             case 6:
                 dialogUtil.getLoadDialog(this);

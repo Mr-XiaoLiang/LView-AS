@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.drawable.DrawerArrowDrawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -31,14 +32,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String GitPath = "https://github.com/Mr-XiaoLiang";
     private FloatingActionButton fab;
     private String[] names = {
-            "日历选择-日期没有限制&全向拖动", "日历选择-日期有限制&单向", "选项卡切换-三角形", "选项卡切换-线形", "时间选择-小时",
-            "时间选择-分钟", "加载等待动画", "饼图", "进度图", "雷达图",
+            "日历选择-日期没有限制&全向拖动", "日历选择-日期有限制&单向", "选项卡切换-三角形", "选项卡切换-线形", "时间选择",
+            "时间选择（占位用的）", "加载等待动画", "饼图", "进度图", "雷达图",
             "圆形图片", "滑动按钮", "温度计", "进度条按钮", "页面下方小点",
             "tab小点", "日期滚轮", "时间滚轮", "全套滚轮", "tab条形",
             "倒计时View", "商品列表", "支付宝咻一咻", "系统自带的抽屉用法演示", "现在较流行的抽屉样式",
             "带涟漪的Layout", "渐变的View", "通讯录", "添加快捷方式", "删除快捷方式",
             "水滴加载动画", "跑马灯", "折线图", "刮刮卡", "转动的心（未完成）",
-            "文字跳跳加载动画1","文字跳跳加载动画2"};
+            "文字跳跳加载动画1","文字跳跳加载动画2","会动的返回键(模仿谷歌抽屉箭头)"};
     private RecyclerView recyclerView;
     private MainAdapter adapter;
     private DialogUtil dialogUtil;
@@ -196,6 +197,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case 36:
                 dialogUtil.getLoadDialog3(this,1);
+                break;
+            case 37:
+                startActivity(new Intent(this,LBackActivity.class));
                 break;
             default:
                 intent = new Intent(this, ViewTest.class);

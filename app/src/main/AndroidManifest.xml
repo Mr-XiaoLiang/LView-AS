@@ -32,7 +32,11 @@
         <activity android:name=".CountDownListActivity" />
         <activity android:name=".ShopListTest" />
         <activity android:name=".PhoneBook" />
-        <activity android:name=".ScratchCardActivity"/>
+        <activity android:name=".ScratchCardActivity" />
+        <activity
+            android:name=".LBackActivity"
+            android:label="@string/title_activity_lback"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>

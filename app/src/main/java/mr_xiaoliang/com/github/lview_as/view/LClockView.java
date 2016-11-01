@@ -1092,7 +1092,7 @@ public class LClockView extends View {
 		}
 		invalidate();
 		return true;
-	};
+	}
 
 	private void onTouch(double pa, double r) {
 		if (type == TYPE_HOURS) {

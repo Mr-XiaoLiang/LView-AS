@@ -69,11 +69,10 @@
     <LinearLayout
         android:layout_marginTop="15dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="right"
         android:orientation="horizontal"
         android:weightSum="4" >
-
         <TextView
             android:id="@+id/dialog_clock_cancel"
             android:layout_width="0px"
@@ -81,7 +80,7 @@
             android:layout_weight="1"
             android:background="@drawable/dialog_onclick"
             android:gravity="center"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_5"
             android:text="取消" />
 
         <TextView
@@ -91,7 +90,7 @@
             android:layout_weight="1"
             android:background="@drawable/dialog_onclick"
             android:gravity="center"
-            android:padding="@dimen/dimen_10"
+            android:padding="@dimen/dimen_5"
             android:text="确定"
             android:textColor="@color/red" />
     </LinearLayout>

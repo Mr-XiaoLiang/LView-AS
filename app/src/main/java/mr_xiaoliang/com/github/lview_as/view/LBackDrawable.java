@@ -7,12 +7,10 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.FloatRange;
-import android.util.Log;
 
 /**
  * Created by liuj on 2016/10/28.
